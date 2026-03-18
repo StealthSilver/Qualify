@@ -53,13 +53,13 @@ export default function Testimonials() {
             viewport={{ once: true }}
             className="inline-block mb-6"
           >
-            <span className="px-4 py-2 rounded-full glass border border-indigo-500/20 text-sm text-indigo-300">
+            <span className="px-4 py-2 rounded-full bg-[rgba(57,63,91,0.08)] backdrop-blur-xl [-webkit-backdrop-filter:blur(12px)_saturate(180%)] border border-indigo-500/20 text-sm text-indigo-300">
               Success Stories
             </span>
           </motion.div>
           
           <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            Trusted by <span className="gradient-text">Top Rankers</span>
+            Trusted by <span className="bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent font-extrabold animate-gradient-flow">Top Rankers</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Real results from real students who transformed their preparation with Qualify.
@@ -78,7 +78,11 @@ export default function Testimonials() {
               className="relative group"
             >
               <motion.div
-                className="glass-strong rounded-2xl p-8 h-full relative overflow-hidden noise cursor-pointer"
+                className="bg-[rgba(57,63,91,0.15)] backdrop-blur-[20px] [-webkit-backdrop-filter:blur(20px)_saturate(200%)] border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-1px_0_rgba(0,0,0,0.1)] rounded-2xl p-8 h-full relative overflow-hidden cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+                  backgroundBlendMode: 'overlay'
+                }}
                 whileHover={{ 
                   boxShadow: '0 20px 60px rgba(124, 58, 237, 0.15)'
                 }}
@@ -153,21 +157,21 @@ export default function Testimonials() {
           className="mt-20 text-center"
         >
           <motion.div
-            className="inline-flex items-center gap-6 glass rounded-2xl px-12 py-8"
+            className="inline-flex items-center gap-6 bg-[rgba(57,63,91,0.08)] backdrop-blur-xl [-webkit-backdrop-filter:blur(12px)_saturate(180%)] border border-white/[0.08] shadow-[0_4px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)] rounded-2xl px-12 py-8"
             whileHover={{ scale: 1.05 }}
           >
             <div className="text-center">
-              <div className="text-4xl font-bold gradient-text mb-2">4.9/5</div>
+              <div className="text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent animate-gradient-flow mb-2">4.9/5</div>
               <div className="text-sm text-gray-500">Average Rating</div>
             </div>
             <div className="w-px h-12 bg-gray-700"></div>
             <div className="text-center">
-              <div className="text-4xl font-bold gradient-text mb-2">10K+</div>
+              <div className="text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent animate-gradient-flow mb-2">10K+</div>
               <div className="text-sm text-gray-500">Happy Students</div>
             </div>
             <div className="w-px h-12 bg-gray-700"></div>
             <div className="text-center">
-              <div className="text-4xl font-bold gradient-text mb-2">95%</div>
+              <div className="text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent animate-gradient-flow mb-2">95%</div>
               <div className="text-sm text-gray-500">Success Rate</div>
             </div>
           </motion.div>

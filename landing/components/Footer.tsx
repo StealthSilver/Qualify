@@ -76,7 +76,7 @@ export default function Footer() {
                   key={index}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-[rgba(57,63,91,0.08)] backdrop-blur-xl [-webkit-backdrop-filter:blur(12px)_saturate(180%)] border border-white/[0.08] shadow-[0_4px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)] flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300"
                   whileHover={{ scale: 1.1, y: -3 }}
                   whileTap={{ scale: 0.9 }}
                   initial={{ opacity: 0, y: 20 }}

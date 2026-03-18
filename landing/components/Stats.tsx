@@ -46,7 +46,7 @@ function AnimatedStat({ value, suffix, label, delay }: StatProps) {
       className="text-center group cursor-default"
     >
       <motion.div
-        className="text-5xl md:text-6xl font-bold gradient-text mb-3"
+        className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent animate-gradient-flow mb-3"
         whileHover={{ scale: 1.1 }}
         transition={{ duration: 0.3 }}
       >
@@ -79,9 +79,9 @@ export default function Stats() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            The Numbers Speak for <span className="gradient-text">Themselves</span>
-          </h2>
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          The Numbers Speak for <span className="bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent font-extrabold animate-gradient-flow">Themselves</span>
+        </h2>
           <p className="text-gray-400 text-lg">
             Trusted by thousands of serious aspirants across the nation
           </p>

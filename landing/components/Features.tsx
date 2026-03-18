@@ -60,13 +60,13 @@ export default function Features() {
             viewport={{ once: true }}
             className="inline-block mb-6"
           >
-            <span className="px-4 py-2 rounded-full glass border border-purple-500/20 text-sm text-purple-300">
+            <span className="px-4 py-2 rounded-full bg-[rgba(57,63,91,0.08)] backdrop-blur-xl [-webkit-backdrop-filter:blur(12px)_saturate(180%)] border border-purple-500/20 text-sm text-purple-300">
               Everything You Need
             </span>
           </motion.div>
           
           <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            Features That <span className="gradient-text">Accelerate</span> Growth
+            Features That <span className="bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent font-extrabold animate-gradient-flow">Accelerate</span> Growth
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Powerful tools designed to transform your preparation from good to exceptional.
@@ -90,8 +90,12 @@ export default function Features() {
                   rotateY: 5,
                 }}
                 transition={{ duration: 0.3 }}
-                className="relative glass-strong rounded-2xl p-8 h-full cursor-pointer overflow-hidden noise"
-                style={{ perspective: '1000px' }}
+                className="relative bg-[rgba(57,63,91,0.15)] backdrop-blur-[20px] [-webkit-backdrop-filter:blur(20px)_saturate(200%)] border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-1px_0_rgba(0,0,0,0.1)] rounded-2xl p-8 h-full cursor-pointer overflow-hidden"
+                style={{ 
+                  perspective: '1000px',
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+                  backgroundBlendMode: 'overlay'
+                }}
               >
                 <motion.div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -115,7 +119,7 @@ export default function Features() {
                   <feature.icon className="w-7 h-7 text-white" />
                 </motion.div>
 
-                <h3 className="text-2xl font-bold mb-4 text-white relative z-10 group-hover:gradient-text transition-all duration-300">
+                <h3 className="text-2xl font-bold mb-4 text-white relative z-10 group-hover:bg-gradient-to-r group-hover:from-indigo-600 group-hover:via-purple-600 group-hover:via-pink-600 group-hover:to-indigo-600 group-hover:bg-[length:300%_300%] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                   {feature.title}
                 </h3>
 

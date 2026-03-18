@@ -61,7 +61,7 @@ export default function Hero() {
           className="mb-6"
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-indigo-500/20 mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgba(57,63,91,0.08)] backdrop-blur-xl [-webkit-backdrop-filter:blur(12px)_saturate(180%)] border border-indigo-500/20 shadow-[0_4px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)] mb-8"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -78,7 +78,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <span className="block text-white">Train Like a</span>
-          <span className="block gradient-text">Top Ranker</span>
+          <span className="block bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent font-extrabold tracking-tight animate-gradient-flow">Top Ranker</span>
         </motion.h1>
 
         <motion.p
@@ -118,7 +118,7 @@ export default function Hero() {
           </motion.button>
 
           <motion.button
-            className="px-8 py-4 glass-strong rounded-full text-white font-semibold text-lg hover:bg-white/10 transition-all duration-300"
+            className="px-8 py-4 bg-[rgba(57,63,91,0.15)] backdrop-blur-[20px] [-webkit-backdrop-filter:blur(20px)_saturate(200%)] border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-1px_0_rgba(0,0,0,0.1)] rounded-full text-white font-semibold text-lg hover:bg-white/10 transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -143,7 +143,7 @@ export default function Hero() {
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent animate-gradient-flow mb-2">
                 {stat.value}
               </div>
               <div className="text-sm text-gray-500">

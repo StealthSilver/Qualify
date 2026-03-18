@@ -23,7 +23,11 @@ export default function CTA() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass-strong rounded-3xl p-12 md:p-16 text-center noise relative overflow-hidden"
+          className="bg-[rgba(57,63,91,0.15)] backdrop-blur-[20px] [-webkit-backdrop-filter:blur(20px)_saturate(200%)] border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-1px_0_rgba(0,0,0,0.1)] rounded-3xl p-12 md:p-16 text-center relative overflow-hidden"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+            backgroundBlendMode: 'overlay'
+          }}
         >
           <motion.div
             className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-purple-600/10 to-pink-600/10"
@@ -45,7 +49,7 @@ export default function CTA() {
               transition={{ duration: 0.5 }}
               className="inline-block mb-6"
             >
-              <span className="px-4 py-2 rounded-full glass border border-indigo-500/30 text-sm text-indigo-300">
+              <span className="px-4 py-2 rounded-full bg-[rgba(57,63,91,0.08)] backdrop-blur-xl [-webkit-backdrop-filter:blur(12px)_saturate(180%)] border border-indigo-500/30 text-sm text-indigo-300">
                 Ready to Transform Your Preparation?
               </span>
             </motion.div>
@@ -58,7 +62,7 @@ export default function CTA() {
               className="text-4xl md:text-6xl font-bold mb-6 text-white"
             >
               Start Your Journey to
-              <span className="block gradient-text mt-2">Excellence Today</span>
+              <span className="block bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent font-extrabold animate-gradient-flow mt-2">Excellence Today</span>
             </motion.h2>
 
             <motion.p
@@ -96,7 +100,7 @@ export default function CTA() {
               </motion.button>
 
               <motion.button
-                className="px-10 py-5 glass-strong rounded-full text-white font-semibold text-lg hover:bg-white/10 transition-all duration-300"
+                className="px-10 py-5 bg-[rgba(57,63,91,0.15)] backdrop-blur-[20px] [-webkit-backdrop-filter:blur(20px)_saturate(200%)] border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-1px_0_rgba(0,0,0,0.1)] rounded-full text-white font-semibold text-lg hover:bg-white/10 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

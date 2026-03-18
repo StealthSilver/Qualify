@@ -38,7 +38,7 @@ export default function About() {
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            The <span className="gradient-text">Qualify</span> Philosophy
+            The <span className="bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent font-extrabold tracking-tight animate-gradient-flow">Qualify</span> Philosophy
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             We believe in the power of deliberate practice and systematic improvement. 
@@ -57,7 +57,12 @@ export default function About() {
               whileHover={{ y: -10, scale: 1.02 }}
               className="relative group"
             >
-              <div className="glass-strong rounded-2xl p-8 h-full hover:bg-white/5 transition-all duration-300 noise">
+              <div className="relative bg-[rgba(57,63,91,0.15)] backdrop-blur-[20px] [-webkit-backdrop-filter:blur(20px)_saturate(200%)] border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-1px_0_rgba(0,0,0,0.1)] rounded-2xl p-8 h-full hover:bg-white/5 transition-all duration-300 overflow-hidden"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+                  backgroundBlendMode: 'overlay'
+                }}
+              >
                 <motion.div
                   className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-6`}
                   whileHover={{ rotate: 360, scale: 1.1 }}
@@ -66,7 +71,7 @@ export default function About() {
                   <item.icon className="w-8 h-8 text-white" />
                 </motion.div>
 
-                <h3 className="text-2xl font-bold mb-4 text-white group-hover:gradient-text transition-all duration-300">
+                <h3 className="text-2xl font-bold mb-4 text-white group-hover:bg-gradient-to-r group-hover:from-indigo-600 group-hover:via-purple-600 group-hover:via-pink-600 group-hover:to-indigo-600 group-hover:bg-[length:300%_300%] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                   {item.title}
                 </h3>
 
@@ -91,10 +96,14 @@ export default function About() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-20 glass rounded-3xl p-12 text-center noise"
+          className="mt-20 bg-[rgba(57,63,91,0.08)] backdrop-blur-xl [-webkit-backdrop-filter:blur(12px)_saturate(180%)] border border-white/[0.08] shadow-[0_4px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)] rounded-3xl p-12 text-center overflow-hidden relative"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+            backgroundBlendMode: 'overlay'
+          }}
         >
           <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-            Built for the <span className="gradient-text">Serious Few</span>
+            Built for the <span className="bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-600 to-indigo-600 bg-[length:300%_300%] bg-clip-text text-transparent animate-gradient-flow">Serious Few</span>
           </h3>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
             Qualify isn't for everyone. It's for aspirants who understand that 

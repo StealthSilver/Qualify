@@ -122,7 +122,7 @@ export default function Navbar() {
             <motion.a
               key={index}
               href={link.href}
-              className="text-3xl text-white hover:gradient-text transition-all duration-300"
+              className="text-3xl text-white hover:bg-gradient-to-r hover:from-indigo-600 hover:via-purple-600 hover:via-pink-600 hover:to-indigo-600 hover:bg-[length:300%_300%] hover:bg-clip-text hover:text-transparent transition-all duration-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 20 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
