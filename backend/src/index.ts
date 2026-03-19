@@ -6,6 +6,6 @@ app.get("/", (req: Request, res: Response) => {
   console.log("hello world");
 });
 
-app.listen(3000, () => {
-  console.log("teh app is listenting on port 3000");
+app.listen(8000, () => {
+  console.log("teh app is listenting on port 8000");
 });

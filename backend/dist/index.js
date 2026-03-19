@@ -8,6 +8,6 @@ const app = (0, express_1.default)();
 app.get("/", (req, res) => {
     console.log("hello world");
 });
-app.listen(3000, () => {
-    console.log("teh app is lostening on port 3000");
+app.listen(8000, () => {
+    console.log("teh app is listenting on port 8000");
 });
