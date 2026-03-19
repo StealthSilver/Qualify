@@ -203,7 +203,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased bg-[#f3f6f8]`}>
       <head>
         {/* Favicon and Icons */}
         <link rel="icon" href="/logo-sm.svg" type="image/svg+xml" />
@@ -232,7 +232,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-[#f3f6f8]">{children}</body>
     </html>
   );
 }
