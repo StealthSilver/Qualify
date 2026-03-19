@@ -1,0 +1,23 @@
+{
+  "name": "Spardha - JEE Preparation Platform",
+  "short_name": "Spardha",
+  "description": "Excel in JEE preparation with daily tests, DPPs, expert courses, and advanced analytics. Track your progress with milestones and achieve your IIT dreams.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3f6f8",
+  "theme_color": "#393f5b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "en-IN",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}
