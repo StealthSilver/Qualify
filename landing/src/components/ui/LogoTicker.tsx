@@ -31,11 +31,11 @@ export default function LogoTicker() {
   return (
     <div className="w-full bg-[#f3f6f8]">
       {/* Container matching the vertical lines boundaries */}
-      <div className="max-w-7xl mx-auto px-12">
-        {/* Horizontal separator line */}
-        <div className="w-full border-t border-dotted border-[#393f5b]/15 mb-8" />
+      <div className="max-w-7xl mx-auto">
+        {/* Horizontal separator line - spans to container edges */}
+        <div className="w-[1230px] ml-6 border-t border-dotted border-[#393f5b]/15" />
         
-        <div className="pb-8">
+        <div className="px-12 pt-8 pb-8">
           <div className="text-center mb-6">
             <p className="text-xs font-light text-[#070a05]/50 tracking-[0.2em] uppercase">
               Trusted by Leading Institutions
