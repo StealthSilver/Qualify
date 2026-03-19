@@ -7,5 +7,5 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.listen(8000, () => {
-  console.log("teh app is listenting on port 8000");
+  console.log("the app is listenting on port 8000");
 });
