@@ -69,6 +69,7 @@ export default function Footer() {
 
   return (
     <footer
+      id="contact"
       ref={sectionRef}
       className="relative w-full bg-[#f3f6f8] text-[#070a05] overflow-hidden"
     >

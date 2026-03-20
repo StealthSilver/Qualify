@@ -52,6 +52,7 @@ export default function Features() {
 
   return (
     <section
+      id="features"
       ref={containerRef}
       className="relative w-full bg-[#f3f6f8] text-[#070a05]"
       style={{ height: "500vh", position: "relative" }}

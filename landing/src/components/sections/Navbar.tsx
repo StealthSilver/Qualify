@@ -1,11 +1,68 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
+  // Track which section is currently in view
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["about", "features", "courses", "testimonials", "contact"];
+      const scrollPosition = window.scrollY + 100; // offset for navbar height
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+
+      // If at the very top, clear active section
+      if (window.scrollY < 100) {
+        setActiveSection("");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const navbarHeight = 72; // navbar height
+      const targetPosition = element.offsetTop - navbarHeight;
+      window.scrollTo({
+        top: targetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const navItems = [
+    { label: "About", id: "about" },
+    { label: "Features", id: "features" },
+    { label: "Courses", id: "courses" },
+    { label: "Testimonials", id: "testimonials" },
+    { label: "Contact", id: "contact" },
+  ];
 
   return (
     <nav className="w-full bg-[#f3f6f8] text-[#070a05] fixed top-0 left-0 z-50 border-b border-dotted border-[#393f5b]/15">
@@ -13,34 +70,38 @@ export default function Navbar() {
         {/* Left Section - Logo and Hamburger */}
         <div className="flex items-center gap-4">
           {/* Logo */}
-          <Image 
-            src="/logo-light.svg" 
-            alt="Spardha" 
-            width={120} 
-            height={28}
-            className="h-7 w-auto"
-            priority
-          />
+          <button onClick={scrollToTop} className="cursor-pointer transition-opacity hover:opacity-80">
+            <Image 
+              src="/logo-light.svg" 
+              alt="Spardha" 
+              width={120} 
+              height={28}
+              className="h-7 w-auto"
+              priority
+            />
+          </button>
         </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-          {["About", "Features", "Courses", "Testimonials", "Contact"].map(
-            (item) => (
-              <a
-                key={item}
-                href="#"
-                className="relative group transition-all duration-300 hover:text-[#393f5b]"
-              >
-                <span className="relative z-10">{item}</span>
-                
-                {/* Animated underline with scale effect */}
-                <span className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-[2px] bg-[#393f5b] transition-all duration-300 ease-out group-hover:w-full" />
-                
-                {/* Subtle background glow */}
-              </a>
-            ),
-          )}
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              className="relative group transition-all duration-300 hover:text-[#393f5b]"
+            >
+              <span className="relative z-10">{item.label}</span>
+              
+              {/* Animated underline with scale effect */}
+              <span 
+                className={`absolute left-1/2 -translate-x-1/2 -bottom-1 h-[2px] bg-[#393f5b] transition-all duration-300 ease-out ${
+                  activeSection === item.id 
+                    ? "w-full" 
+                    : "w-0 group-hover:w-full"
+                }`} 
+              />
+            </button>
+          ))}
         </div>
 
         {/* CTA Button (Desktop) */}
@@ -79,13 +140,15 @@ export default function Navbar() {
       >
         {/* Drawer Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200/50">
-          <Image 
-            src="/logo-light.svg" 
-            alt="Spardha" 
-            width={120} 
-            height={28}
-            className="h-7 w-auto"
-          />
+          <button onClick={() => { scrollToTop(); setIsOpen(false); }} className="cursor-pointer transition-opacity hover:opacity-80">
+            <Image 
+              src="/logo-light.svg" 
+              alt="Spardha" 
+              width={120} 
+              height={28}
+              className="h-7 w-auto"
+            />
+          </button>
           <button
             onClick={() => setIsOpen(false)}
             className="transition-all duration-200 active:scale-90 hover:rotate-90 hover:text-[#393f5b]"
@@ -98,28 +161,33 @@ export default function Navbar() {
         <div className="flex flex-col px-6 py-8">
           {/* Navigation Links */}
           <div className="flex flex-col gap-2">
-            {["About", "Features", "Courses", "Testimonials", "Contact"].map(
-              (item, index) => (
-                <a
-                  key={item}
-                  href="#"
-                  onClick={() => setIsOpen(false)}
-                  className="relative group px-4 py-3 rounded-lg transition-all duration-300 hover:text-[#393f5b] hover:bg-[#393f5b]/5"
-                  style={{
-                    animation: isOpen
-                      ? `slideIn 0.3s ease-out ${index * 0.1}s both`
-                      : "none",
-                  }}
-                >
-                  <span className="relative z-10 font-medium text-base">
-                    {item}
-                  </span>
+            {navItems.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => { scrollToSection(item.id); setIsOpen(false); }}
+                className={`relative group px-4 py-3 rounded-lg transition-all duration-300 hover:text-[#393f5b] hover:bg-[#393f5b]/5 text-left ${
+                  activeSection === item.id ? "text-[#393f5b] bg-[#393f5b]/5" : ""
+                }`}
+                style={{
+                  animation: isOpen
+                    ? `slideIn 0.3s ease-out ${index * 0.1}s both`
+                    : "none",
+                }}
+              >
+                <span className="relative z-10 font-medium text-base">
+                  {item.label}
+                </span>
 
-                  {/* Animated border on hover */}
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0 h-8 bg-[#393f5b] transition-all duration-300 ease-out group-hover:w-1 rounded-r-full" />
-                </a>
-              ),
-            )}
+                {/* Animated border on hover or active */}
+                <span 
+                  className={`absolute left-0 top-1/2 -translate-y-1/2 h-8 bg-[#393f5b] transition-all duration-300 ease-out rounded-r-full ${
+                    activeSection === item.id
+                      ? "w-1"
+                      : "w-0 group-hover:w-1"
+                  }`} 
+                />
+              </button>
+            ))}
           </div>
 
           {/* CTA Button (Mobile) */}

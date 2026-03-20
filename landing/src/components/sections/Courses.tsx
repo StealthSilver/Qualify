@@ -148,6 +148,7 @@ export default function Courses() {
   return (
     <section
       ref={sectionRef}
+      id="courses"
       className="relative w-full bg-[#f3f6f8] text-[#070a05] overflow-hidden py-20 md:py-32"
     >
       {/* Main Container */}
