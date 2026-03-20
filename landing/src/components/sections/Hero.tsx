@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section className="relative w-full bg-[#f3f6f8] text-[#070a05] overflow-hidden">
       {/* Main Container - Mobile-first responsive grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 pt-20 pb-12 sm:pt-24 sm:pb-16 md:pt-32 md:pb-20 lg:pt-40 lg:pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-32 md:pb-12 lg:pt-40 lg:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center">
           {/* Left Side - Content */}
           <div className="w-full max-w-2xl mx-auto lg:mx-0">
@@ -77,7 +77,7 @@ export default function Hero() {
           <div 
             className="relative w-full order-first lg:order-last"
             style={{
-              height: 'clamp(300px, 60vw, 600px)',
+              height: 'clamp(250px, 50vw, 600px)',
               maxHeight: '600px',
             }}
           >

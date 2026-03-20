@@ -56,38 +56,38 @@ export default function StepNight({ progress, activeStep }: StepNightProps) {
     >
       {/* Title & Subtitle */}
       <motion.div
-        className="text-center mb-8 px-4"
+        className="text-center mb-6 md:mb-8 px-4"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-xl md:text-2xl font-light text-[#393f5b] mb-2">
+        <h3 className="text-base sm:text-lg md:text-2xl font-light text-[#393f5b] mb-1 md:mb-2">
           See Your Rank Improve Daily
         </h3>
-        <p className="text-sm md:text-base text-[#070a05]/60 font-light">
+        <p className="text-xs sm:text-sm md:text-base text-[#070a05]/60 font-light">
           Compete with real students and track your growth
         </p>
       </motion.div>
 
       {/* Leaderboard Card */}
       <motion.div
-        className="relative w-full max-w-md bg-white/40 backdrop-blur-sm rounded-xl border border-[#070a05]/10 p-6 shadow-lg"
+        className="relative w-full max-w-md bg-white/40 backdrop-blur-sm rounded-lg md:rounded-xl border border-[#070a05]/10 p-4 md:p-6 shadow-lg"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
         {/* Header with Rank */}
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#070a05]/10">
-          <span className="text-xs font-light text-[#070a05]/50 tracking-wider uppercase">
+        <div className="flex items-center justify-between mb-3 md:mb-4 pb-2 md:pb-3 border-b border-[#070a05]/10">
+          <span className="text-[10px] sm:text-xs font-light text-[#070a05]/50 tracking-wider uppercase">
             Your Rank
           </span>
-          <div className="flex items-center gap-2">
-            <Trophy size={14} className="text-amber-700/50" />
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <Trophy size={12} className="sm:w-[14px] sm:h-[14px] text-amber-700/50" />
             <motion.span
               key={rank}
               initial={{ scale: 1.2, opacity: 0.5 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="text-xl font-light text-[#393f5b]/80"
+              className="text-base sm:text-lg md:text-xl font-light text-[#393f5b]/80"
             >
               #{rank}
             </motion.span>
@@ -95,16 +95,16 @@ export default function StepNight({ progress, activeStep }: StepNightProps) {
         </div>
 
         {/* Rank Improvement */}
-        <motion.div className="mb-4 p-3 rounded-lg bg-gradient-to-r from-emerald-50/30 to-teal-50/20 border border-emerald-500/20">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-[#070a05]/60 font-light">
+        <motion.div className="mb-3 md:mb-4 p-2 md:p-3 rounded-lg bg-gradient-to-r from-emerald-50/30 to-teal-50/20 border border-emerald-500/20">
+          <div className="flex items-center justify-between mb-1.5 md:mb-2">
+            <span className="text-[10px] sm:text-xs text-[#070a05]/60 font-light">
               This Week
             </span>
-            <span className="text-xs text-emerald-800/70 font-light">
+            <span className="text-[10px] sm:text-xs text-emerald-800/70 font-light">
               ↑ {1200 - rank} places
             </span>
           </div>
-          <div className="relative h-2 bg-[#070a05]/5 rounded-full overflow-hidden">
+          <div className="relative h-1.5 md:h-2 bg-[#070a05]/5 rounded-full overflow-hidden">
             <motion.div
               className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-700/60 to-teal-700/50 rounded-full"
               initial={{ width: "0%" }}
@@ -121,14 +121,14 @@ export default function StepNight({ progress, activeStep }: StepNightProps) {
         </motion.div>
 
         {/* Leaderboard List */}
-        <div className="space-y-1.5">
-          <p className="text-xs text-[#070a05]/50 font-light mb-2">
+        <div className="space-y-1 md:space-y-1.5">
+          <p className="text-[10px] sm:text-xs text-[#070a05]/50 font-light mb-1.5 md:mb-2">
             Current standings:
           </p>
           {leaderboardEntries.map((entry, i) => (
             <motion.div
               key={entry.rank}
-              className={`flex items-center justify-between p-2.5 rounded-lg transition-all duration-300 ${
+              className={`flex items-center justify-between p-2 md:p-2.5 rounded-lg transition-all duration-300 ${
                 entry.isUser
                   ? "bg-gradient-to-r from-[#393f5b]/10 to-blue-500/5 border border-[#393f5b]/20"
                   : "bg-white/20 border border-[#070a05]/5"
@@ -137,16 +137,16 @@ export default function StepNight({ progress, activeStep }: StepNightProps) {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.6 + i * 0.1 }}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 md:gap-3">
                 <span
-                  className={`text-xs font-light ${
+                  className={`text-[10px] sm:text-xs font-light ${
                     entry.isUser ? "text-[#393f5b]/70" : "text-[#070a05]/40"
                   }`}
                 >
                   #{entry.rank}
                 </span>
                 <span
-                  className={`text-sm font-light ${
+                  className={`text-xs sm:text-sm font-light ${
                     entry.isUser ? "text-[#393f5b]/90" : "text-[#070a05]/70"
                   }`}
                 >
@@ -154,7 +154,7 @@ export default function StepNight({ progress, activeStep }: StepNightProps) {
                 </span>
               </div>
               <span
-                className={`text-xs font-light ${
+                className={`text-[10px] sm:text-xs font-light ${
                   entry.isUser ? "text-[#393f5b]/60" : "text-[#070a05]/50"
                 }`}
               >
@@ -181,12 +181,12 @@ export default function StepNight({ progress, activeStep }: StepNightProps) {
 
         {/* Next Milestone */}
         <motion.div
-          className="mt-4 pt-3 border-t border-[#070a05]/10 text-center"
+          className="mt-3 md:mt-4 pt-2 md:pt-3 border-t border-[#070a05]/10 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
         >
-          <span className="text-xs text-[#070a05]/60 font-light">
+          <span className="text-[10px] sm:text-xs text-[#070a05]/60 font-light">
             Next milestone: Top 200
           </span>
         </motion.div>
@@ -194,7 +194,7 @@ export default function StepNight({ progress, activeStep }: StepNightProps) {
 
       {/* Time indicator */}
       <motion.div
-        className="mt-6 text-xs text-[#070a05]/40 font-light"
+        className="mt-4 md:mt-6 text-[10px] sm:text-xs text-[#070a05]/40 font-light"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}

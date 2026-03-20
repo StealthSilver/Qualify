@@ -47,10 +47,10 @@ export default function StoryFrame({ children, ctaProgress, scrollYProgress }: S
   const ctaGradientOpacity = useTransform(scrollYProgress, [0.75, 0.8, 1], [0, 1, 1]);
 
   return (
-    <div className="relative w-full max-w-5xl h-[650px] md:h-[750px] mt-8 md:mt-12">
+    <div className="relative w-full max-w-5xl h-[500px] sm:h-[550px] md:h-[650px] lg:h-[750px] mt-6 md:mt-12">
       {/* Main Story Card - Glassmorphism */}
       <motion.div
-        className="relative w-full h-full bg-white/60 backdrop-blur-xl rounded-2xl border border-[#070a05]/10 shadow-2xl overflow-hidden"
+        className="relative w-full h-full bg-white/60 backdrop-blur-xl rounded-lg md:rounded-xl lg:rounded-2xl border border-[#070a05]/10 shadow-2xl overflow-hidden"
         animate={{
           y: [0, -5, 0],
         }}
@@ -62,35 +62,35 @@ export default function StoryFrame({ children, ctaProgress, scrollYProgress }: S
       >
         {/* Gradient phase overlays - stacked for smooth transitions */}
         <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
+          className="absolute inset-0 pointer-events-none rounded-lg md:rounded-xl lg:rounded-2xl"
           style={{
             background: phase1Gradient,
             opacity: phase1Opacity,
           }}
         />
         <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
+          className="absolute inset-0 pointer-events-none rounded-lg md:rounded-xl lg:rounded-2xl"
           style={{
             background: phase2Gradient,
             opacity: phase2Opacity,
           }}
         />
         <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
+          className="absolute inset-0 pointer-events-none rounded-lg md:rounded-xl lg:rounded-2xl"
           style={{
             background: phase3Gradient,
             opacity: phase3Opacity,
           }}
         />
         <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
+          className="absolute inset-0 pointer-events-none rounded-lg md:rounded-xl lg:rounded-2xl"
           style={{
             background: phase4Gradient,
             opacity: phase4Opacity,
           }}
         />
         <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
+          className="absolute inset-0 pointer-events-none rounded-lg md:rounded-xl lg:rounded-2xl"
           style={{
             background: ctaGradient,
             opacity: ctaGradientOpacity,
@@ -101,28 +101,28 @@ export default function StoryFrame({ children, ctaProgress, scrollYProgress }: S
         <div className="absolute inset-0 bg-gradient-to-br from-[#393f5b]/5 via-transparent to-[#393f5b]/8 pointer-events-none" />
 
         {/* Soft glow effect */}
-        <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(57,63,91,0.1)] pointer-events-none rounded-2xl" />
+        <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(57,63,91,0.1)] pointer-events-none rounded-lg md:rounded-xl lg:rounded-2xl" />
 
         {/* Content Container */}
-        <div className="relative w-full h-full p-8 md:p-12 flex items-center justify-center">
+        <div className="relative w-full h-full p-3 sm:p-4 md:p-8 lg:p-12 flex items-center justify-center overflow-y-auto">
           {children}
         </div>
 
         {/* Final CTA - Centered in the box, appears only at the end */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none"
+          className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 pointer-events-none overflow-y-auto"
           style={{
             opacity: ctaOpacity,
             scale: ctaScale,
           }}
         >
-          <div className="text-center pointer-events-auto">
-            <p className="text-xl md:text-2xl lg:text-3xl font-light text-[#393f5b] mb-6 leading-relaxed">
+          <div className="text-center pointer-events-auto py-4">
+            <p className="text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl font-light text-[#393f5b] mb-3 sm:mb-4 md:mb-6 leading-relaxed px-4">
               Small daily improvements.
               <br />
               Massive rank shifts.
             </p>
-            <button className="group relative bg-[#393f5b] text-white px-8 py-4 rounded-lg text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#2f3450] overflow-hidden">
+            <button className="group relative bg-[#393f5b] text-white px-5 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-lg text-xs sm:text-sm md:text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#2f3450] overflow-hidden">
               <span className="relative z-10">Start Competing</span>
             </button>
           </div>

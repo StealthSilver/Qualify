@@ -95,12 +95,12 @@ export default function Features() {
         <div className="relative h-full w-full flex flex-col items-center justify-center px-6 md:px-12">
           {/* Section Title - fades out as scroll progresses */}
           <motion.div
-            className="absolute top-12 md:top-16 text-center pt-6 md:pt-8"
+            className="absolute top-8 sm:top-10 md:top-16 text-center pt-4 sm:pt-5 md:pt-8"
             style={{
               opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]),
             }}
           >
-            <h2 className="text-xs font-light text-[#070a05]/50 tracking-[0.2em] uppercase">
+            <h2 className="text-[10px] sm:text-xs font-light text-[#070a05]/50 tracking-[0.15em] sm:tracking-[0.2em] uppercase">
               A Day Inside{" "}
               <span className="text-[#070a05]/50">Spardha</span>
             </h2>

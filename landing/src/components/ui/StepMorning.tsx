@@ -42,41 +42,41 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
 
   return (
     <motion.div
-      className="absolute inset-0 flex flex-col items-center justify-center"
+      className="absolute inset-0 flex flex-col items-center justify-center px-2 sm:px-4"
       style={{ opacity, scale }}
     >
       {/* Title & Subtitle */}
       <motion.div
-        className="text-center mb-8 px-4"
+        className="text-center mb-4 sm:mb-6 md:mb-8 px-2 sm:px-4"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-xl md:text-2xl font-light text-[#393f5b] mb-2">
+        <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-light text-[#393f5b] mb-1 md:mb-2 leading-tight">
           Start Your Day With Competition
         </h3>
-        <p className="text-sm md:text-base text-[#070a05]/60 font-light">
+        <p className="text-[10px] sm:text-xs md:text-sm lg:text-base text-[#070a05]/60 font-light">
           Daily tests that simulate real exam pressure
         </p>
       </motion.div>
 
       {/* Test Interface Card */}
       <motion.div
-        className="relative w-full max-w-md bg-white/40 backdrop-blur-sm rounded-xl border border-[#070a05]/10 p-6 shadow-lg"
+        className="relative w-full max-w-md bg-white/40 backdrop-blur-sm rounded-lg md:rounded-xl border border-[#070a05]/10 p-3 sm:p-4 md:p-6 shadow-lg"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
         {/* Timer */}
         <motion.div
-          className="flex items-center justify-between mb-4 pb-3 border-b border-[#070a05]/10"
+          className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4 pb-2 md:pb-3 border-b border-[#070a05]/10"
           animate={{ opacity: showCorrect ? 0.3 : 1 }}
         >
-          <span className="text-xs font-light text-[#070a05]/50 tracking-wider uppercase">
+          <span className="text-[9px] sm:text-[10px] md:text-xs font-light text-[#070a05]/50 tracking-wider uppercase">
             Question 1/5
           </span>
-          <div className="flex items-center gap-2 text-sm text-[#393f5b]/70">
-            <Clock size={14} />
+          <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 text-[10px] sm:text-xs md:text-sm text-[#393f5b]/70">
+            <Clock size={10} className="sm:w-3 sm:h-3 md:w-[14px] md:h-[14px]" />
             <motion.span
               key={timer}
               initial={{ scale: 1.1 }}
@@ -90,16 +90,16 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
 
         {/* Question */}
         <motion.div
-          className="mb-4"
+          className="mb-2 sm:mb-3 md:mb-4"
           animate={{ opacity: showCorrect ? 0.5 : 1 }}
         >
-          <p className="text-sm md:text-base text-[#070a05]/80 font-light leading-relaxed">
+          <p className="text-[10px] sm:text-xs md:text-sm lg:text-base text-[#070a05]/80 font-light leading-relaxed">
             A ball is thrown vertically upward with an initial velocity of 20 m/s. What is its maximum height? (g = 10 m/s²)
           </p>
         </motion.div>
 
         {/* Options */}
-        <div className="space-y-2">
+        <div className="space-y-1.5 sm:space-y-2">
           {[
             { label: "A", text: "10 m", correct: false },
             { label: "B", text: "20 m", correct: true },
@@ -108,7 +108,7 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
           ].map((option, i) => (
             <motion.div
               key={option.label}
-              className={`relative p-3 rounded-lg border transition-all duration-300 ${
+              className={`relative p-2 sm:p-2.5 md:p-3 rounded-md md:rounded-lg border transition-all duration-300 ${
                 showCorrect && option.correct
                   ? "bg-teal-50/50 border-teal-600/30"
                   : "bg-white/30 border-[#070a05]/10 hover:bg-white/50"
@@ -117,11 +117,11 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.5 + i * 0.1 }}
             >
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-light text-[#070a05]/50">
+              <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
+                <span className="text-[9px] sm:text-[10px] md:text-xs font-light text-[#070a05]/50">
                   {option.label}
                 </span>
-                <span className="text-sm text-[#070a05]/70 font-light">
+                <span className="text-[10px] sm:text-xs md:text-sm text-[#070a05]/70 font-light break-words">
                   {option.text}
                 </span>
               </div>
@@ -129,13 +129,13 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
               {/* Checkmark for correct answer */}
               {showCorrect && option.correct && (
                 <motion.div
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                  className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2"
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ type: "spring", stiffness: 500, damping: 25 }}
                 >
-                  <div className="w-6 h-6 rounded-full bg-teal-600/20 flex items-center justify-center">
-                    <span className="text-teal-800 text-sm">✓</span>
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-teal-600/20 flex items-center justify-center">
+                    <span className="text-teal-800 text-[10px] sm:text-xs md:text-sm">✓</span>
                   </div>
                 </motion.div>
               )}
@@ -146,11 +146,11 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
         {/* Correct message */}
         {showCorrect && (
           <motion.div
-            className="mt-4 pt-3 border-t border-[#070a05]/10 text-center"
+            className="mt-2 sm:mt-3 md:mt-4 pt-2 md:pt-3 border-t border-[#070a05]/10 text-center"
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
           >
-            <span className="text-sm text-teal-800/70 font-light">
+            <span className="text-[10px] sm:text-xs md:text-sm text-teal-800/70 font-light">
               Correct! +10 points
             </span>
           </motion.div>
@@ -159,7 +159,7 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
 
       {/* Time indicator */}
       <motion.div
-        className="mt-6 text-xs text-[#070a05]/40 font-light"
+        className="mt-3 sm:mt-4 md:mt-6 text-[9px] sm:text-[10px] md:text-xs text-[#070a05]/40 font-light"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}

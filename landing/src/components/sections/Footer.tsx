@@ -101,7 +101,7 @@ export default function Footer() {
         </motion.div>
 
         {/* Links Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
           {/* Product Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -123,10 +123,10 @@ export default function Footer() {
                     href={link.href}
                     className="text-sm text-[#070a05]/60 hover:text-[#393f5b] font-light transition-colors duration-200 flex items-center gap-1 group"
                   >
-                    <span>{link.label}</span>
+                    <span className="break-words">{link.label}</span>
                     <ArrowUpRight
                       size={12}
-                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 flex-shrink-0"
                     />
                   </a>
                 </motion.li>
@@ -155,10 +155,10 @@ export default function Footer() {
                     href={link.href}
                     className="text-sm text-[#070a05]/60 hover:text-[#393f5b] font-light transition-colors duration-200 flex items-center gap-1 group"
                   >
-                    <span>{link.label}</span>
+                    <span className="break-words">{link.label}</span>
                     <ArrowUpRight
                       size={12}
-                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 flex-shrink-0"
                     />
                   </a>
                 </motion.li>
@@ -187,10 +187,10 @@ export default function Footer() {
                     href={link.href}
                     className="text-sm text-[#070a05]/60 hover:text-[#393f5b] font-light transition-colors duration-200 flex items-center gap-1 group"
                   >
-                    <span>{link.label}</span>
+                    <span className="break-words">{link.label}</span>
                     <ArrowUpRight
                       size={12}
-                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 flex-shrink-0"
                     />
                   </a>
                 </motion.li>
@@ -203,7 +203,7 @@ export default function Footer() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="col-span-2 md:col-span-1"
+            className="sm:col-span-2 lg:col-span-1"
           >
             <h3 className="text-sm font-medium text-[#393f5b] mb-4 tracking-wide">
               Stay Updated
@@ -211,7 +211,7 @@ export default function Footer() {
             <p className="text-xs text-[#070a05]/60 font-light mb-4 leading-relaxed">
               Get the latest updates on new features and exam tips.
             </p>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 max-w-sm sm:max-w-none">
               <input
                 type="email"
                 placeholder="Enter your email"

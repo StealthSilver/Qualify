@@ -270,17 +270,17 @@ function CourseAccordionItem({
         aria-expanded={isExpanded}
         onClick={onToggle}
         onKeyDown={onKeyDown}
-        className="flex items-center justify-between py-8 cursor-pointer group"
+        className="flex items-start sm:items-center justify-between py-6 sm:py-8 cursor-pointer group gap-3"
       >
         {/* Left: Title & Tag */}
-        <div className="flex items-center gap-4 flex-1">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1 min-w-0">
           <motion.h3
-            className="text-lg md:text-xl font-light text-[#070a05] transition-transform duration-300 group-hover:translate-x-1"
+            className="text-base sm:text-lg md:text-xl font-light text-[#070a05] transition-transform duration-300 group-hover:translate-x-1 break-words"
             animate={prefersReducedMotion ? {} : {}}
           >
             {course.title}
           </motion.h3>
-          <span className="text-xs px-3 py-1 rounded-full bg-[#393f5b]/10 text-[#393f5b] font-light">
+          <span className="text-xs px-3 py-1 rounded-full bg-[#393f5b]/10 text-[#393f5b] font-light self-start whitespace-nowrap">
             {course.tag}
           </span>
         </div>
@@ -295,7 +295,7 @@ function CourseAccordionItem({
                 }
           }
           transition={{ duration: 0.3 }}
-          className="ml-4"
+          className="flex-shrink-0"
         >
           <div className="w-6 h-6 flex items-center justify-center text-[#393f5b] group-hover:scale-110 transition-transform duration-300">
             {isExpanded ? <X size={20} /> : <Plus size={20} />}
@@ -325,15 +325,15 @@ function CourseAccordionItem({
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="pb-8 pt-2 px-6 md:px-8 grid md:grid-cols-2 gap-8">
+            <div className="pb-8 pt-2 px-2 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
               {/* Left Side - Description & Features */}
               <motion.div
                 initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                 animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
-                className="space-y-6"
+                className="space-y-4 sm:space-y-6"
               >
-                <p className="text-sm text-[#070a05]/70 font-light leading-relaxed">
+                <p className="text-sm text-[#070a05]/70 font-light leading-relaxed break-words">
                   {course.description}
                 </p>
 
@@ -352,8 +352,8 @@ function CourseAccordionItem({
                         transition={{ duration: 0.3, delay: 0.2 + idx * 0.05 }}
                         className="flex items-start gap-2 text-sm text-[#070a05]/60 font-light"
                       >
-                        <span className="text-[#393f5b] mt-1">•</span>
-                        <span>{feature}</span>
+                        <span className="text-[#393f5b] mt-1 flex-shrink-0">•</span>
+                        <span className="break-words">{feature}</span>
                       </motion.li>
                     ))}
                   </ul>
@@ -365,31 +365,31 @@ function CourseAccordionItem({
                 initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                 animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
-                className="space-y-6"
+                className="space-y-4 sm:space-y-6"
               >
                 {/* Key Metrics */}
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-white/60 backdrop-blur-xl rounded-lg border border-[#070a05]/10 p-4">
-                    <p className="text-xs text-[#070a05]/50 font-light mb-1">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4">
+                  <div className="bg-white/60 backdrop-blur-xl rounded-lg border border-[#070a05]/10 p-3 sm:p-4">
+                    <p className="text-[10px] sm:text-xs text-[#070a05]/50 font-light mb-1 truncate">
                       Duration
                     </p>
-                    <p className="text-sm text-[#393f5b] font-medium">
+                    <p className="text-xs sm:text-sm text-[#393f5b] font-medium break-words">
                       {course.duration}
                     </p>
                   </div>
-                  <div className="bg-white/60 backdrop-blur-xl rounded-lg border border-[#070a05]/10 p-4">
-                    <p className="text-xs text-[#070a05]/50 font-light mb-1">
+                  <div className="bg-white/60 backdrop-blur-xl rounded-lg border border-[#070a05]/10 p-3 sm:p-4">
+                    <p className="text-[10px] sm:text-xs text-[#070a05]/50 font-light mb-1 truncate">
                       Difficulty
                     </p>
-                    <p className="text-sm text-[#393f5b] font-medium">
+                    <p className="text-xs sm:text-sm text-[#393f5b] font-medium break-words">
                       {course.difficulty}
                     </p>
                   </div>
-                  <div className="bg-white/60 backdrop-blur-xl rounded-lg border border-[#070a05]/10 p-4">
-                    <p className="text-xs text-[#070a05]/50 font-light mb-1">
+                  <div className="bg-white/60 backdrop-blur-xl rounded-lg border border-[#070a05]/10 p-3 sm:p-4">
+                    <p className="text-[10px] sm:text-xs text-[#070a05]/50 font-light mb-1 truncate">
                       Price
                     </p>
-                    <p className="text-sm text-[#393f5b] font-medium">
+                    <p className="text-xs sm:text-sm text-[#393f5b] font-medium break-words">
                       {course.price}
                     </p>
                   </div>
