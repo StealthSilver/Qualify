@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion, useMotionValue, useTransform } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 import { Check } from "lucide-react";
 
 interface Step {
@@ -53,18 +53,40 @@ export default function QuestionSolvingAnimation() {
   const [accuracy, setAccuracy] = useState(72);
   const [showCorrect, setShowCorrect] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const rotateX = useTransform(mouseY, [-300, 300], [5, -5]);
+  const rotateY = useTransform(mouseX, [-300, 300], [-5, 5]);
 
   const currentQuestion = sampleQuestions[currentQuestionIndex];
 
   useEffect(() => {
-    // Reset state when question changes
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current || shouldReduceMotion) return;
+      
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      mouseX.set(e.clientX - centerX);
+      mouseY.set(e.clientY - centerY);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY, shouldReduceMotion]);
+
+  useEffect(() => {
     setCurrentStep(-1);
     setTimeLeft(currentQuestion.timeLimit);
     setShowCorrect(false);
     setIsComplete(false);
     setAccuracy(72 + currentQuestionIndex * 8);
 
-    // Start timer
     const timerInterval = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 0.5) {
@@ -75,7 +97,6 @@ export default function QuestionSolvingAnimation() {
       });
     }, 100);
 
-    // Animate steps
     const stepTimings = [1500, 2300, 3100];
     const stepTimeouts = stepTimings.map((delay, index) => {
       return setTimeout(() => {
@@ -83,12 +104,10 @@ export default function QuestionSolvingAnimation() {
       }, delay);
     });
 
-    // Show correct indicator
     const correctTimeout = setTimeout(() => {
       setShowCorrect(true);
     }, 4000);
 
-    // Animate accuracy
     const accuracyTimeout = setTimeout(() => {
       setIsComplete(true);
       const targetAccuracy = 98 - currentQuestionIndex * 2;
@@ -111,7 +130,6 @@ export default function QuestionSolvingAnimation() {
       }, duration / steps);
     }, 4500);
 
-    // Move to next question
     const nextQuestionTimeout = setTimeout(() => {
       setCurrentQuestionIndex((prev) => (prev + 1) % sampleQuestions.length);
     }, 8000);
@@ -126,15 +144,19 @@ export default function QuestionSolvingAnimation() {
   }, [currentQuestionIndex, currentQuestion.timeLimit]);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center p-8">
+    <div ref={containerRef} className="relative w-full h-full flex items-center justify-center p-8">
       {/* Floating background elements */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#393f5b]/8 rounded-full blur-3xl"
-        animate={{
-          x: [0, 30, 0],
-          y: [0, -20, 0],
-          scale: [1, 1.1, 1],
-        }}
+        className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"
+        animate={
+          shouldReduceMotion
+            ? {}
+            : {
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+                scale: [1, 1.1, 1],
+              }
+        }
         transition={{
           duration: 8,
           repeat: Infinity,
@@ -142,12 +164,16 @@ export default function QuestionSolvingAnimation() {
         }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-[#393f5b]/6 rounded-full blur-3xl"
-        animate={{
-          x: [0, -20, 0],
-          y: [0, 30, 0],
-          scale: [1, 1.15, 1],
-        }}
+        className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl"
+        animate={
+          shouldReduceMotion
+            ? {}
+            : {
+                x: [0, -20, 0],
+                y: [0, 30, 0],
+                scale: [1, 1.15, 1],
+              }
+        }
         transition={{
           duration: 10,
           repeat: Infinity,
@@ -158,29 +184,34 @@ export default function QuestionSolvingAnimation() {
 
       {/* Main card */}
       <motion.div
-        className="relative w-full max-w-md bg-white backdrop-blur-xl rounded-2xl border border-[#070a05]/10 shadow-lg overflow-hidden"
-        initial={{ opacity: 0, y: 20 }}
+        className="relative w-full max-w-md bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden"
+        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+        style={{
+          rotateX: shouldReduceMotion ? 0 : rotateX,
+          rotateY: shouldReduceMotion ? 0 : rotateY,
+          transformPerspective: 1000,
+        }}
       >
         {/* Subtle glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#393f5b]/5 via-transparent to-[#393f5b]/8 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
         
         {/* Timer */}
-        <div className="relative px-6 pt-5 pb-3 flex items-center justify-between border-b border-[#070a05]/5">
+        <div className="relative px-6 pt-5 pb-3 flex items-center justify-between border-b border-white/5">
           <motion.div
-            className="text-xs font-light text-[#070a05]/40 tracking-wider uppercase"
+            className="text-xs font-light text-white/40 tracking-wider uppercase"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: shouldReduceMotion ? 0 : 0.3 }}
           >
             Question {currentQuestionIndex + 1}
           </motion.div>
           <motion.div
-            className="font-mono text-sm font-medium text-[#070a05]/60"
-            initial={{ opacity: 0, scale: 0.8 }}
+            className="font-mono text-sm font-medium text-white/60"
+            initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: shouldReduceMotion ? 0 : 0.5 }}
           >
             {Math.floor(timeLeft / 60)
               .toString()
@@ -197,11 +228,11 @@ export default function QuestionSolvingAnimation() {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentQuestionIndex}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
-              className="text-lg font-light text-[#070a05]/90 leading-relaxed"
+              exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -10 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
+              className="text-lg font-light text-white/90 leading-relaxed"
             >
               {currentQuestion.question}
             </motion.div>
@@ -215,10 +246,14 @@ export default function QuestionSolvingAnimation() {
               index <= currentStep && (
                 <motion.div
                   key={step.id}
-                  initial={{ opacity: 0, x: -20, filter: "blur(4px)" }}
+                  initial={{
+                    opacity: 0,
+                    x: shouldReduceMotion ? 0 : -20,
+                    filter: shouldReduceMotion ? "blur(0px)" : "blur(4px)",
+                  }}
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                   transition={{
-                    duration: 0.5,
+                    duration: shouldReduceMotion ? 0 : 0.5,
                     ease: "easeOut",
                   }}
                   className="relative"
@@ -226,19 +261,19 @@ export default function QuestionSolvingAnimation() {
                   <div
                     className={`relative px-4 py-3 rounded-lg ${
                       step.isAnswer
-                        ? "bg-[#393f5b]/10 border border-[#393f5b]/20"
-                        : "bg-[#070a05]/5 border border-[#070a05]/5"
+                        ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-400/20"
+                        : "bg-white/5 border border-white/5"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-light text-[#070a05]/40 min-w-[60px]">
+                      <span className="text-xs font-light text-white/40 min-w-[60px]">
                         Step {step.id}
                       </span>
                       <span
                         className={`font-light ${
                           step.isAnswer
-                            ? "text-[#393f5b] font-normal"
-                            : "text-[#070a05]/70"
+                            ? "text-white/95 font-normal"
+                            : "text-white/70"
                         }`}
                       >
                         {step.text}
@@ -246,9 +281,9 @@ export default function QuestionSolvingAnimation() {
                     </div>
 
                     {/* Answer highlight glow */}
-                    {step.isAnswer && (
+                    {step.isAnswer && !shouldReduceMotion && (
                       <motion.div
-                        className="absolute inset-0 bg-[#393f5b]/10 rounded-lg blur-xl"
+                        className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg blur-xl"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: [0, 1, 0.5] }}
                         transition={{
@@ -268,16 +303,20 @@ export default function QuestionSolvingAnimation() {
         <AnimatePresence>
           {showCorrect && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 10 }}
+              initial={{
+                opacity: 0,
+                scale: shouldReduceMotion ? 1 : 0.8,
+                y: shouldReduceMotion ? 0 : 10,
+              }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="mx-6 mb-5 flex items-center gap-2 px-4 py-2.5 bg-emerald-600/10 border border-emerald-600/20 rounded-lg"
+              exit={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.8 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: "easeOut" }}
+              className="mx-6 mb-5 flex items-center gap-2 px-4 py-2.5 bg-emerald-500/10 border border-emerald-400/20 rounded-lg"
             >
-              <div className="w-5 h-5 rounded-full bg-emerald-600/15 flex items-center justify-center">
-                <Check size={14} className="text-emerald-600" />
+              <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                <Check size={14} className="text-emerald-400" />
               </div>
-              <span className="text-sm font-light text-emerald-700">
+              <span className="text-sm font-light text-emerald-400">
                 Correct Solution
               </span>
             </motion.div>
@@ -287,45 +326,46 @@ export default function QuestionSolvingAnimation() {
         {/* Accuracy indicator */}
         <div className="px-6 pb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-light text-[#070a05]/40 tracking-wider uppercase">
+            <span className="text-xs font-light text-white/40 tracking-wider uppercase">
               Accuracy
             </span>
             <motion.span
-              className="text-sm font-medium text-[#070a05]/70"
+              className="text-sm font-medium text-white/70"
               key={accuracy}
-              initial={{ opacity: 0.5, scale: 0.95 }}
+              initial={{ opacity: 0.5, scale: shouldReduceMotion ? 1 : 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
             >
               {accuracy}%
             </motion.span>
           </div>
-          <div className="relative h-1.5 bg-[#070a05]/5 rounded-full overflow-hidden">
+          <div className="relative h-1.5 bg-white/5 rounded-full overflow-hidden">
             <motion.div
-              className="absolute inset-y-0 left-0 bg-[#393f5b] rounded-full"
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
               initial={{ width: "0%" }}
               animate={{ width: `${accuracy}%` }}
               transition={{
-                duration: isComplete ? 1 : 0.3,
+                duration: shouldReduceMotion ? 0 : isComplete ? 1 : 0.3,
                 ease: "easeOut",
               }}
             />
-            {/* Glow effect */}
-            <motion.div
-              className="absolute inset-y-0 left-0 bg-[#393f5b]/60 rounded-full blur-sm opacity-50"
-              initial={{ width: "0%" }}
-              animate={{ width: `${accuracy}%` }}
-              transition={{
-                duration: isComplete ? 1 : 0.3,
-                ease: "easeOut",
-              }}
-            />
+            {!shouldReduceMotion && (
+              <motion.div
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-sm opacity-50"
+                initial={{ width: "0%" }}
+                animate={{ width: `${accuracy}%` }}
+                transition={{
+                  duration: isComplete ? 1 : 0.3,
+                  ease: "easeOut",
+                }}
+              />
+            )}
           </div>
           <motion.p
-            className="mt-2 text-xs font-light text-[#070a05]/30 text-center"
+            className="mt-2 text-xs font-light text-white/30 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: isComplete ? 1 : 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: shouldReduceMotion ? 0 : 0.5 }}
           >
             Improving with every practice
           </motion.p>
@@ -333,26 +373,27 @@ export default function QuestionSolvingAnimation() {
       </motion.div>
 
       {/* Floating particles */}
-      {[...Array(8)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-[#393f5b]/20 rounded-full blur-sm"
-          style={{
-            left: `${20 + i * 10}%`,
-            top: `${30 + (i % 3) * 20}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{
-            duration: 4 + i * 0.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.3,
-          }}
-        />
-      ))}
+      {!shouldReduceMotion &&
+        [...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-white/10 rounded-full blur-sm"
+            style={{
+              left: `${20 + i * 10}%`,
+              top: `${30 + (i % 3) * 20}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 4 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3,
+            }}
+          />
+        ))}
     </div>
   );
 }

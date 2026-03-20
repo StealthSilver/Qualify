@@ -29,23 +29,23 @@ export default function LogoTicker() {
   }, []);
 
   return (
-    <div className="w-full bg-[#f3f6f8]">
+    <div className="w-full bg-[#0B0F1A]">
       {/* Container matching the vertical lines boundaries */}
       <div className="max-w-7xl mx-auto">
         {/* Horizontal separator line - spans to container edges */}
-        <div className="w-[1230px] ml-6 border-t border-dotted border-[#393f5b]/15" />
+        <div className="w-[1230px] ml-6 border-t border-dotted border-white/10" />
         
         <div className="px-12 pt-8 pb-8">
           <div className="text-center mb-6">
-            <p className="text-xs font-light text-[#070a05]/50 tracking-[0.2em] uppercase">
+            <p className="text-xs font-light text-white/40 tracking-[0.2em] uppercase">
               Trusted by Leading Institutions
             </p>
           </div>
 
           <div className="relative">
             {/* Gradient Overlays - positioned at the edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#f3f6f8] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#f3f6f8] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#0B0F1A] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#0B0F1A] to-transparent z-10 pointer-events-none" />
 
             {/* Logo Scroller - contained within boundaries */}
             <div className="overflow-hidden">
@@ -59,14 +59,14 @@ export default function LogoTicker() {
                 {logos.map((logo, index) => (
                   <div
                     key={index}
-                    className="flex-shrink-0 flex items-center justify-center h-16 w-32 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                    className="flex-shrink-0 flex items-center justify-center h-16 w-32 opacity-50 hover:opacity-100 transition-all duration-300"
                   >
                     <Image
                       src={logo}
                       alt={`Partner logo ${index + 1}`}
                       width={128}
                       height={64}
-                      className="max-h-12 w-auto object-contain"
+                      className="max-h-12 w-auto object-contain brightness-0 invert"
                     />
                   </div>
                 ))}
