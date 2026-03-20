@@ -94,17 +94,17 @@ export default function StepMorning({ progress, activeStep }: StepMorningProps) 
           animate={{ opacity: showCorrect ? 0.5 : 1 }}
         >
           <p className="text-sm md:text-base text-[#070a05]/80 font-light leading-relaxed">
-            What is the time complexity of binary search?
+            A ball is thrown vertically upward with an initial velocity of 20 m/s. What is its maximum height? (g = 10 m/s²)
           </p>
         </motion.div>
 
         {/* Options */}
         <div className="space-y-2">
           {[
-            { label: "A", text: "O(n)", correct: false },
-            { label: "B", text: "O(log n)", correct: true },
-            { label: "C", text: "O(n²)", correct: false },
-            { label: "D", text: "O(1)", correct: false },
+            { label: "A", text: "10 m", correct: false },
+            { label: "B", text: "20 m", correct: true },
+            { label: "C", text: "30 m", correct: false },
+            { label: "D", text: "40 m", correct: false },
           ].map((option, i) => (
             <motion.div
               key={option.label}

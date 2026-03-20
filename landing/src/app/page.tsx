@@ -4,7 +4,7 @@ import About from "@/components/sections/About";
 import Features from "@/components/sections/Features";
 import Testimonials from "@/components/sections/Testimonials";
 import Footer from "@/components/sections/Footer";
-
+import Courses from "@/components/sections/Courses";
 export default function Home() {
   return (
     <main className="min-h-screen relative bg-[#f3f6f8]">
@@ -25,6 +25,7 @@ export default function Home() {
         <div className="bg-[#f3f6f8]">
           <About />
           <Features />
+          <Courses/>
           <Testimonials />
           <Footer />
         </div>

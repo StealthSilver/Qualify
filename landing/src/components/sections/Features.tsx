@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import StoryFrame from "../ui/StoryFrame";
 import StepMorning from "../ui/StepMorning";
@@ -11,6 +11,7 @@ import StepNight from "../ui/StepNight";
 export default function Features() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const activeStepValue = useMotionValue(0);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -33,14 +34,17 @@ export default function Features() {
   const nightProgress = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
   const ctaProgress = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
 
-  // Determine active step based on scroll
-  const activeStep = useTransform(scrollYProgress, (latest) => {
-    if (latest < 0.2) return 0;
-    if (latest < 0.4) return 1;
-    if (latest < 0.6) return 2;
-    if (latest < 0.8) return 3;
-    return 4;
-  });
+  // Update active step value
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      if (latest < 0.2) activeStepValue.set(0);
+      else if (latest < 0.4) activeStepValue.set(1);
+      else if (latest < 0.6) activeStepValue.set(2);
+      else if (latest < 0.8) activeStepValue.set(3);
+      else activeStepValue.set(4);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress, activeStepValue]);
 
   if (prefersReducedMotion) {
     return <FeaturesStatic />;
@@ -90,30 +94,30 @@ export default function Features() {
         <div className="relative h-full w-full flex flex-col items-center justify-center px-6 md:px-12">
           {/* Section Title - fades out as scroll progresses */}
           <motion.div
-            className="absolute top-12 md:top-16 text-center"
+            className="absolute top-12 md:top-16 text-center pt-6 md:pt-8"
             style={{
               opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]),
             }}
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-[#070a05] tracking-tight">
+            <h2 className="text-xs font-light text-[#070a05]/50 tracking-[0.2em] uppercase">
               A Day Inside{" "}
-              <span className="text-[#393f5b]">Spardha</span>
+              <span className="text-[#070a05]/50">Spardha</span>
             </h2>
           </motion.div>
 
           {/* Story Frame Container */}
-          <StoryFrame ctaProgress={ctaProgress}>
+          <StoryFrame ctaProgress={ctaProgress} scrollYProgress={scrollYProgress}>
             {/* Morning - Daily Test */}
-            <StepMorning progress={morningProgress} activeStep={activeStep} />
+            <StepMorning progress={morningProgress} activeStep={activeStepValue} />
 
             {/* Afternoon - Smart Practice */}
-            <StepAfternoon progress={afternoonProgress} activeStep={activeStep} />
+            <StepAfternoon progress={afternoonProgress} activeStep={activeStepValue} />
 
             {/* Evening - Analytics */}
-            <StepEvening progress={eveningProgress} activeStep={activeStep} />
+            <StepEvening progress={eveningProgress} activeStep={activeStepValue} />
 
             {/* Night - Rank & Progress */}
-            <StepNight progress={nightProgress} activeStep={activeStep} />
+            <StepNight progress={nightProgress} activeStep={activeStepValue} />
           </StoryFrame>
         </div>
       </div>
