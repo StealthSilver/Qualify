@@ -45,27 +45,27 @@ export default function StepAfternoon({ progress, activeStep }: StepAfternoonPro
 
   return (
     <motion.div
-      className="absolute inset-0 flex flex-col items-center justify-center px-2 sm:px-4"
+      className="absolute inset-0 flex flex-col items-center justify-center"
       style={{ opacity, scale, y }}
     >
       {/* Title & Subtitle */}
       <motion.div
-        className="text-center mb-4 sm:mb-6 md:mb-8 px-2 sm:px-4"
+        className="text-center mb-6 md:mb-8 px-4"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-light text-[#393f5b] mb-1 md:mb-2 leading-tight">
+        <h3 className="text-base sm:text-lg md:text-2xl font-light text-[#393f5b] mb-1 md:mb-2">
           Practice What You&apos;re Weak At
         </h3>
-        <p className="text-[10px] sm:text-xs md:text-sm lg:text-base text-[#070a05]/60 font-light">
+        <p className="text-xs sm:text-sm md:text-base text-[#070a05]/60 font-light">
           Automatically generated DPPs based on your performance
         </p>
       </motion.div>
 
       {/* Practice Dashboard Card */}
       <motion.div
-        className="relative w-full max-w-md bg-white/40 backdrop-blur-sm rounded-lg md:rounded-xl border border-[#070a05]/10 p-3 sm:p-4 md:p-6 shadow-lg"
+        className="relative w-full max-w-md bg-white/40 backdrop-blur-sm rounded-lg md:rounded-xl border border-[#070a05]/10 p-4 md:p-6 shadow-lg"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}

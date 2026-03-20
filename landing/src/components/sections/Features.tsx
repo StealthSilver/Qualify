@@ -142,7 +142,7 @@ function FeaturesStatic() {
         <div className="space-y-12">
           <div className="bg-white/60 backdrop-blur-xl rounded-xl border border-[#070a05]/10 shadow-lg p-8">
             <h3 className="text-2xl font-light text-[#393f5b] mb-4">
-              🌅 Morning — Daily Test
+              Morning — Daily Test
             </h3>
             <p className="text-[#070a05]/70 font-light">
               Start Your Day With Competition. Daily tests that simulate real exam pressure.
@@ -151,7 +151,7 @@ function FeaturesStatic() {
 
           <div className="bg-white/60 backdrop-blur-xl rounded-xl border border-[#070a05]/10 shadow-lg p-8">
             <h3 className="text-2xl font-light text-[#393f5b] mb-4">
-              🧠 Afternoon — Smart Practice
+              Afternoon — Smart Practice
             </h3>
             <p className="text-[#070a05]/70 font-light">
               Practice What You&apos;re Weak At. Automatically generated DPPs based on your performance.
@@ -160,7 +160,7 @@ function FeaturesStatic() {
 
           <div className="bg-white/60 backdrop-blur-xl rounded-xl border border-[#070a05]/10 shadow-lg p-8">
             <h3 className="text-2xl font-light text-[#393f5b] mb-4">
-              📊 Evening — Advanced Analytics
+              Evening — Advanced Analytics
             </h3>
             <p className="text-[#070a05]/70 font-light">
               Know Exactly Where You Stand. Track accuracy, speed, and improvement in real-time.
@@ -169,7 +169,7 @@ function FeaturesStatic() {
 
           <div className="bg-white/60 backdrop-blur-xl rounded-xl border border-[#070a05]/10 shadow-lg p-8">
             <h3 className="text-2xl font-light text-[#393f5b] mb-4">
-              🏁 Night — Rank & Progress
+              Night — Rank & Progress
             </h3>
             <p className="text-[#070a05]/70 font-light">
               See Your Rank Improve Daily. Compete with real students and track your growth.
