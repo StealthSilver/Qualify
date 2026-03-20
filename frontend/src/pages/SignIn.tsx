@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowRight, ChevronRight, Mail, Lock } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { authService } from '../services/api';
 import type { SignInData } from '../services/api';
+import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -36,15 +37,31 @@ export default function SignIn() {
 
   return (
     <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
-      {/* Background decoration - matching landing page */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-30 sm:opacity-40"
-        style={{
-          background: 'radial-gradient(circle at 50% 30%, rgba(57, 63, 91, 0.04), transparent 50%)',
-        }}
-      />
+      {/* Animated 3D Spiral Fiber Background */}
+      <AnimatedGradientBackground />
 
-      <div className="relative max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 md:px-12 lg:px-20 pt-10 pb-8 xs:pt-12 sm:pt-16 md:pt-28 md:pb-16">
+      {/* Vertical Lines Container */}
+      <div className="fixed top-[72px] left-0 right-0 bottom-0 pointer-events-none z-[3]">
+        <div className="max-w-7xl mx-auto px-6 h-full relative">
+          <div className="absolute left-6 top-0 h-full w-[1px] border-l border-dotted border-[#393f5b]/15" />
+          <div className="absolute right-6 top-0 h-full w-[1px] border-r border-dotted border-[#393f5b]/15" />
+        </div>
+      </div>
+
+      {/* Navbar Area */}
+      <div className="relative w-full bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 z-[2]">
+        <div className="max-w-7xl mx-auto px-10 py-4">
+          <Link to="/" className="inline-block transition-opacity hover:opacity-80">
+            <img 
+              src="/logo-light.svg" 
+              alt="Spardha" 
+              className="h-7 w-auto"
+            />
+          </Link>
+        </div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 md:px-12 lg:px-20 pt-10 pb-8 xs:pt-12 sm:pt-16 md:pt-20 md:pb-16 z-[2]">
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="text-center mb-6 xs:mb-8 md:mb-12">
@@ -77,7 +94,7 @@ export default function SignIn() {
           </div>
 
           {/* Form Card */}
-          <div className="bg-white rounded-lg xs:rounded-xl shadow-md p-5 xs:p-6 sm:p-8 md:p-10">
+          <div className="relative z-10 bg-white/95 backdrop-blur-md rounded-lg xs:rounded-xl shadow-xl border border-white/50 p-5 xs:p-6 sm:p-8 md:p-10">
             <form onSubmit={handleSubmit} className="space-y-4 xs:space-y-5">
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-3 xs:px-4 py-2.5 xs:py-3 rounded-md text-xs xs:text-sm">
@@ -93,18 +110,14 @@ export default function SignIn() {
                 >
                   Email Address
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#070a05]/40" size={18} />
-                  <input
-                    id="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full pl-10 pr-4 py-2.5 xs:py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#393f5b]/50 focus:border-[#393f5b] transition-all duration-300 text-sm xs:text-base"
-                    placeholder="you@example.com"
-                  />
-                </div>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-2.5 xs:py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#393f5b]/50 focus:border-[#393f5b] transition-all duration-300 text-sm xs:text-base"
+                />
               </div>
 
               {/* Password Input */}
@@ -115,18 +128,14 @@ export default function SignIn() {
                 >
                   Password
                 </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#070a05]/40" size={18} />
-                  <input
-                    id="password"
-                    type="password"
-                    required
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full pl-10 pr-4 py-2.5 xs:py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#393f5b]/50 focus:border-[#393f5b] transition-all duration-300 text-sm xs:text-base"
-                    placeholder="Enter your password"
-                  />
-                </div>
+                <input
+                  id="password"
+                  type="password"
+                  required
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full px-4 py-2.5 xs:py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#393f5b]/50 focus:border-[#393f5b] transition-all duration-300 text-sm xs:text-base"
+                />
               </div>
 
               {/* Submit Button - matching landing page CTA button */}
