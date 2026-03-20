@@ -3,8 +3,16 @@
 import { ArrowRight, ChevronRight } from "lucide-react";
 import LogoTicker from "../ui/LogoTicker";
 import QuestionSolvingAnimation from "../ui/QuestionSolvingAnimation";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function Hero() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   return (
     <section className="relative w-full bg-[#f3f6f8] text-[#070a05] overflow-hidden">
       {/* Main Container - Grid Layout */}
@@ -13,27 +21,47 @@ export default function Hero() {
           {/* Left Side - Content */}
           <div className="max-w-2xl">
             {/* Badge - Minimal Style */}
-            <div className="inline-block">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+              className="inline-block"
+            >
               <span className="text-xs font-light text-[#070a05]/50 tracking-[0.2em] uppercase">
                 Prepare • Compete • Excel
               </span>
-            </div>
+            </motion.div>
 
             {/* Main Headline - Very Light Font Weight */}
-            <h1 className="mt-8 text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+              className="mt-8 text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight"
+            >
               Master Your
               <br />
               <span className="text-[#393f5b]">Competitive Edge</span>
-            </h1>
+            </motion.h1>
 
             {/* Subheadline */}
-            <p className="mt-6 text-lg md:text-xl text-[#070a05]/70 leading-relaxed">
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+              transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
+              className="mt-6 text-lg md:text-xl text-[#070a05]/70 leading-relaxed"
+            >
               Transform your preparation with AI-powered learning, real-time competitions,
               and personalized coaching designed for ambitious students.
-            </p>
+            </motion.p>
 
             {/* CTA Button */}
-            <div className="mt-10">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+              transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
+              className="mt-10"
+            >
               <button className="group flex items-center gap-2 bg-[#393f5b] text-white px-8 py-4 rounded-lg text-base font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:bg-[#2f3450]">
                 <span>Get Started</span>
                 
@@ -49,18 +77,29 @@ export default function Hero() {
                   />
                 </span>
               </button>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Side - Animation */}
-          <div className="relative h-[500px] lg:h-[600px]">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.95 }}
+            transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+            className="relative h-[500px] lg:h-[600px]"
+          >
             <QuestionSolvingAnimation />
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Logo Ticker */}
-      <LogoTicker />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoaded ? 1 : 0 }}
+        transition={{ duration: 0.8, delay: 1.1, ease: "easeOut" }}
+      >
+        <LogoTicker />
+      </motion.div>
 
       {/* Subtle Background Decoration */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(57,63,91,0.04),transparent_50%)] pointer-events-none" />

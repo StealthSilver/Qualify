@@ -3,31 +3,50 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Trigger fade-in on mount
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   // Track which section is currently in view
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["about", "features", "courses", "testimonials", "contact"];
-      const scrollPosition = window.scrollY + 100; // offset for navbar height
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
-        }
+      const scrollPosition = window.scrollY + window.innerHeight / 2; // middle of viewport
+      
+      // Check if we're near the bottom of the page
+      const isNearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+      
+      if (isNearBottom) {
+        // If near bottom, set contact as active
+        setActiveSection("contact");
+        return;
       }
 
       // If at the very top, clear active section
       if (window.scrollY < 100) {
         setActiveSection("");
+        return;
+      }
+
+      // Find the section that's currently in view
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop } = element;
+          if (scrollPosition >= offsetTop) {
+            setActiveSection(section);
+            break;
+          }
+        }
       }
     };
 
@@ -65,10 +84,20 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="w-full bg-[#f3f6f8] text-[#070a05] fixed top-0 left-0 z-50 border-b border-dotted border-[#393f5b]/15">
+    <motion.nav 
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : -20 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="w-full bg-[#f3f6f8] text-[#070a05] fixed top-0 left-0 z-50 border-b border-dotted border-[#393f5b]/15"
+    >
       <div className="max-w-7xl mx-auto px-10 py-4 flex items-center justify-between">
         {/* Left Section - Logo and Hamburger */}
-        <div className="flex items-center gap-4">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: isLoaded ? 1 : 0, x: isLoaded ? 0 : -20 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="flex items-center gap-4"
+        >
           {/* Logo */}
           <button onClick={scrollToTop} className="cursor-pointer transition-opacity hover:opacity-80">
             <Image 
@@ -80,10 +109,15 @@ export default function Navbar() {
               priority
             />
           </button>
-        </div>
+        </motion.div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isLoaded ? 1 : 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          className="hidden md:flex items-center gap-8 text-sm font-medium"
+        >
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -102,10 +136,15 @@ export default function Navbar() {
               />
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* CTA Button (Desktop) */}
-        <button className="hidden md:flex items-center gap-2 bg-[#393f5b] text-white px-5 py-2 rounded-md text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#2f3450] group">
+        <motion.button 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: isLoaded ? 1 : 0, x: isLoaded ? 0 : 20 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          className="hidden md:flex items-center gap-2 bg-[#393f5b] text-white px-5 py-2 rounded-md text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#2f3450] group"
+        >
           <span>
             Get Started
           </span>
@@ -121,15 +160,18 @@ export default function Navbar() {
               className="absolute opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
             />
           </span>
-        </button>
+        </motion.button>
 
         {/* Hamburger (Mobile) - Right Side */}
-        <button
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isLoaded ? 1 : 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="md:hidden transition-transform duration-200 active:scale-90 hover:text-[#393f5b]"
           onClick={() => setIsOpen(true)}
         >
           <Menu size={26} />
-        </button>
+        </motion.button>
       </div>
 
       {/* Mobile Drawer - Slides from Left */}
@@ -221,6 +263,6 @@ export default function Navbar() {
           onClick={() => setIsOpen(false)}
         />
       )}
-    </nav>
+    </motion.nav>
   );
 }
