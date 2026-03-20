@@ -1,6 +1,10 @@
 import express from "express";
+import dotenv from "dotenv";
 import routes from "./routes";
+import { connectDB } from "./config";
 import { errorHandler, logger, validateRequest } from "./middlewares";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -23,7 +27,18 @@ app.get("/", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`API available at http://localhost:${PORT}/api`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      console.log(`API available at http://localhost:${PORT}/api`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
