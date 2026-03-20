@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { ChevronRight, ArrowRight } from "lucide-react";
 import TestimonialCard from "../ui/TestimonialCard";
 
 interface Testimonial {
@@ -301,11 +302,24 @@ export default function Testimonials() {
                   }
             }
             whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
-            className="relative bg-[#393f5b] text-white px-8 py-4 rounded-lg text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+            className="relative bg-[#393f5b] text-white px-8 py-4 rounded-md text-base font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#2f3450] overflow-hidden group"
           >
             {/* Subtle gradient overlay on button */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative">Start Competing</span>
+            <span className="relative flex items-center gap-2">
+              Start Competing
+              {/* ICON CONTAINER (fixed width to prevent shift) */}
+              <span className="relative w-5 h-5 flex items-center justify-center overflow-hidden">
+                <ChevronRight
+                  size={18}
+                  className="absolute transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2"
+                />
+                <ArrowRight
+                  size={18}
+                  className="absolute opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
+                />
+              </span>
+            </span>
           </motion.button>
         </motion.div>
       </div>
