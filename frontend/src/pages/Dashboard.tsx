@@ -1,6 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User } from 'lucide-react';
+import { 
+  TrendingUp, 
+  Target, 
+  Award, 
+  Clock,
+  BookOpen,
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight,
+  Menu
+} from 'lucide-react';
+import Sidebar from '../components/Sidebar';
 
 interface UserData {
   id: string;
@@ -9,9 +20,19 @@ interface UserData {
   role: string;
 }
 
+interface StatCard {
+  label: string;
+  value: string;
+  change?: string;
+  icon: any;
+  color: string;
+}
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState<UserData | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,88 +56,240 @@ export default function Dashboard() {
     return null;
   }
 
+  const stats: StatCard[] = [
+    {
+      label: 'Questions Solved',
+      value: '1,234',
+      change: '+12% this week',
+      icon: CheckCircle2,
+      color: 'bg-emerald-500',
+    },
+    {
+      label: 'Current Streak',
+      value: '15 days',
+      change: 'Keep going!',
+      icon: Target,
+      color: 'bg-[#393f5b]',
+    },
+    {
+      label: 'Mock Tests',
+      value: '28',
+      change: '+3 this month',
+      icon: BookOpen,
+      color: 'bg-cyan-500',
+    },
+    {
+      label: 'Leaderboard Rank',
+      value: '#127',
+      change: '↑ 23 positions',
+      icon: Award,
+      color: 'bg-amber-500',
+    },
+  ];
+
+  const recentActivity = [
+    {
+      title: 'Daily Practice Test',
+      subject: 'Physics - Mechanics',
+      score: '85%',
+      time: '2 hours ago',
+      status: 'completed',
+    },
+    {
+      title: 'Mock Test - JEE Main',
+      subject: 'Full Syllabus',
+      score: 'In Progress',
+      time: '1 day ago',
+      status: 'pending',
+    },
+    {
+      title: 'Practice Session',
+      subject: 'Mathematics - Calculus',
+      score: '92%',
+      time: '2 days ago',
+      status: 'completed',
+    },
+  ];
+
   return (
-    <section className="relative w-full min-h-screen bg-background text-text overflow-hidden">
-      {/* Background decoration */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-30 sm:opacity-40"
-        style={{
-          background: 'radial-gradient(circle at 50% 30%, rgba(57, 63, 91, 0.04), transparent 50%)',
-        }}
+    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+      {/* Sidebar */}
+      <Sidebar 
+        user={user} 
+        onLogout={handleLogout}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onCollapseChange={setSidebarCollapsed}
       />
 
-      {/* Header */}
-      <div className="relative border-b border-gray-200 bg-white/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-medium text-primary">
-            Spardha
-          </h1>
+      {/* Main Content Area */}
+      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
+        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
+      }`}>
+        {/* Top Bar */}
+        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
+          <div className="flex-1">
+            <h1 
+              className="font-light leading-tight tracking-tight"
+              style={{
+                fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
+              }}
+            >
+              Welcome back, <span className="text-[#393f5b]">{user.name}</span>
+            </h1>
+            <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
+              Ready to continue your preparation?
+            </p>
+          </div>
           
+          {/* Mobile Menu Button */}
           <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-text/70 hover:text-primary hover:bg-gray-100 rounded-md transition-colors"
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
           >
-            <LogOut size={16} />
-            Logout
+            <Menu size={24} className="text-[#393f5b]" />
           </button>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 pt-12 pb-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Welcome Section */}
-          <div className="bg-white rounded-lg sm:rounded-xl shadow-md p-6 sm:p-8 md:p-10 mb-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-primary/10 rounded-full">
-                <User className="text-primary" size={24} />
-              </div>
-              <div>
-                <h2 
-                  className="font-light leading-tight tracking-tight mb-2"
-                  style={{
-                    fontSize: 'clamp(1.5rem, 4vw + 0.3rem, 2.5rem)',
-                  }}
+        {/* Dashboard Content */}
+        <div className="p-4 sm:p-6 md:p-12">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+            {stats.map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div 
+                  key={stat.label}
+                  className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md hover:shadow-lg transition-all duration-300"
                 >
-                  Welcome, <span className="text-primary">{user.name}</span>
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`p-3 rounded-lg ${stat.color}`}>
+                      <Icon className="text-white" size={20} />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-light tracking-tight text-[#070a05] mb-1">
+                    {stat.value}
+                  </h3>
+                  <p className="text-sm text-[#070a05]/60 mb-2">{stat.label}</p>
+                  {stat.change && (
+                    <p className="text-xs text-[#393f5b] font-medium">{stat.change}</p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+            {/* Recent Activity */}
+            <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-light tracking-tight text-[#070a05]">
+                  Recent Activity
                 </h2>
-                <p className="text-text/70 text-sm sm:text-base">
-                  {user.email} • {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
-                </p>
+                <Clock size={20} className="text-[#393f5b]" />
+              </div>
+
+              <div className="space-y-4">
+                {recentActivity.map((activity, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-start gap-4 pb-4 border-b border-dotted border-[#393f5b]/10 last:border-0 last:pb-0"
+                  >
+                    <div className={`p-2 rounded-md ${
+                      activity.status === 'completed' ? 'bg-emerald-100' : 'bg-amber-100'
+                    }`}>
+                      {activity.status === 'completed' ? (
+                        <CheckCircle2 size={16} className="text-emerald-600" />
+                      ) : (
+                        <AlertCircle size={16} className="text-amber-600" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-sm font-medium text-[#070a05] mb-1">
+                        {activity.title}
+                      </h3>
+                      <p className="text-xs text-[#070a05]/60 mb-1">
+                        {activity.subject}
+                      </p>
+                      <div className="flex items-center gap-3 text-xs">
+                        <span className={`font-medium ${
+                          activity.status === 'completed' ? 'text-emerald-600' : 'text-amber-600'
+                        }`}>
+                          {activity.score}
+                        </span>
+                        <span className="text-[#070a05]/40">•</span>
+                        <span className="text-[#070a05]/60">{activity.time}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button className="w-full mt-6 flex items-center justify-center gap-2 text-sm text-[#393f5b] hover:text-[#2f3450] font-medium transition-colors">
+                View All Activity
+                <ArrowRight size={16} />
+              </button>
+            </div>
+
+            {/* Quick Actions & Recommendations */}
+            <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-light tracking-tight text-[#070a05]">
+                  Quick Actions
+                </h2>
+                <TrendingUp size={20} className="text-[#393f5b]" />
+              </div>
+
+              <div className="space-y-3">
+                <button className="w-full bg-[#393f5b] hover:bg-[#2f3450] text-white rounded-lg p-4 text-left transition-colors shadow-md hover:shadow-lg">
+                  <h3 className="font-medium mb-1">Start Daily Practice</h3>
+                  <p className="text-xs text-white/80">
+                    Continue your 15-day streak
+                  </p>
+                </button>
+
+                <button className="w-full bg-white hover:bg-gray-50 border border-[#393f5b]/20 text-[#070a05] rounded-lg p-4 text-left transition-colors">
+                  <h3 className="font-medium mb-1">Take Mock Test</h3>
+                  <p className="text-xs text-[#070a05]/60">
+                    New JEE Main pattern available
+                  </p>
+                </button>
+
+                <button className="w-full bg-white hover:bg-gray-50 border border-[#393f5b]/20 text-[#070a05] rounded-lg p-4 text-left transition-colors">
+                  <h3 className="font-medium mb-1">View Analytics</h3>
+                  <p className="text-xs text-[#070a05]/60">
+                    Track your progress this week
+                  </p>
+                </button>
+
+                <button className="w-full bg-white hover:bg-gray-50 border border-[#393f5b]/20 text-[#070a05] rounded-lg p-4 text-left transition-colors">
+                  <h3 className="font-medium mb-1">Check Leaderboard</h3>
+                  <p className="text-xs text-[#070a05]/60">
+                    You're rank #127 • ↑ 23 positions
+                  </p>
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Placeholder Content */}
-          <div className="bg-white rounded-lg sm:rounded-xl shadow-md p-6 sm:p-8 md:p-10">
-            <h3 className="text-xl font-medium text-text mb-4">
-              Dashboard Coming Soon
-            </h3>
-            <p className="text-text/70 leading-relaxed mb-4">
-              Your personalized dashboard is under development. Soon you'll be able to:
-            </p>
-            <ul className="space-y-3 text-text/70">
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
-                Access daily practice tests
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
-                Track your performance and rankings
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
-                View detailed analytics
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
-                Compete with other students
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
-                Get AI-powered recommendations
-              </li>
-            </ul>
+          {/* Upcoming Tests Banner */}
+          <div className="mt-6 md:mt-8 bg-gradient-to-r from-[#393f5b] to-[#2f3450] rounded-lg p-6 shadow-lg text-white">
+            <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+              <div className="flex-1">
+                <h2 className="text-xl font-light tracking-tight mb-2">
+                  Upcoming Mock Test
+                </h2>
+                <p className="text-white/80 text-sm mb-4">
+                  JEE Main Full Syllabus Test • Scheduled for tomorrow at 10:00 AM
+                </p>
+                <button className="bg-white text-[#393f5b] hover:bg-white/90 px-6 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2">
+                  Register Now
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+              <Target className="text-white/30 hidden sm:block" size={48} />
+            </div>
           </div>
         </div>
       </div>
