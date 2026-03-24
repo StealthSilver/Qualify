@@ -71,4 +71,24 @@ export const authService = {
     const response = await api.get('/auth/profile');
     return response.data;
   },
+
+  updateProfile: async (body: {
+    name?: string;
+    currentPassword?: string;
+    newPassword?: string;
+  }) => {
+    const response = await api.patch<{
+      success: boolean;
+      message: string;
+      data: {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+        isActive: boolean;
+        updatedAt?: string;
+      };
+    }>('/auth/profile', body);
+    return response.data;
+  },
 };

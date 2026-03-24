@@ -179,3 +179,91 @@ export const getProfile = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user.userId;
+    const { name, currentPassword, newPassword } = req.body as {
+      name?: string;
+      currentPassword?: string;
+      newPassword?: string;
+    };
+
+    const updatingName = name !== undefined;
+    const updatingPassword =
+      (currentPassword !== undefined && String(currentPassword).length > 0) ||
+      (newPassword !== undefined && String(newPassword).length > 0);
+
+    if (!updatingName && !updatingPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Provide a name update and/or current and new password",
+      });
+    }
+
+    const user = await User.findById(userId).select("+password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (updatingName) {
+      const trimmed = String(name ?? "").trim();
+      if (trimmed.length < 2 || trimmed.length > 50) {
+        return res.status(400).json({
+          success: false,
+          message: "Name must be between 2 and 50 characters",
+        });
+      }
+      user.name = trimmed;
+    }
+
+    if (updatingPassword) {
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+          success: false,
+          message: "Current password and new password are required to change password",
+        });
+      }
+      if (String(newPassword).length < 6) {
+        return res.status(400).json({
+          success: false,
+          message: "New password must be at least 6 characters",
+        });
+      }
+      const valid = await user.comparePassword(currentPassword);
+      if (!valid) {
+        return res.status(401).json({
+          success: false,
+          message: "Current password is incorrect",
+        });
+      }
+      user.password = newPassword;
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      data: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isActive: user.isActive,
+        updatedAt: user.updatedAt,
+      },
+    });
+  } catch (error: any) {
+    console.error("Update profile error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update profile",
+      error: error.message,
+    });
+  }
+};

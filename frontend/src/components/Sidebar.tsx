@@ -40,7 +40,7 @@ const navItems: NavItem[] = [
   { label: 'Mock Tests', path: '/dashboard/mock-tests', icon: FileText },
   { label: 'Analytics', path: '/dashboard/analytics', icon: BarChart3 },
   { label: 'Leaderboard', path: '/dashboard/leaderboard', icon: Trophy },
-  { label: 'Settings', path: '/dashboard/settings', icon: Settings },
+  { label: 'Settings', path: '/settings', icon: Settings },
 ];
 
 export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCollapseChange, disableNavigation = false }: SidebarProps) {

@@ -9,6 +9,7 @@ import QuestionSolve from './pages/QuestionSolve';
 import DailyPractice from './pages/DailyPractice';
 import DPPTest from './pages/DPPTest';
 import MockTests from './pages/MockTests';
+import MockTestInterface from './pages/MockTestInterface';
 import Analytics from './pages/Analytics';
 import Leaderboard from './pages/Leaderboard';
 import Settings from './pages/Settings';
@@ -28,9 +29,11 @@ function App() {
         <Route path="/dashboard/daily-practice" element={<DailyPractice />} />
         <Route path="/dashboard/dpp/:date" element={<DPPTest />} />
         <Route path="/dashboard/mock-tests" element={<MockTests />} />
+        <Route path="/dashboard/mock-test/:testId" element={<MockTestInterface />} />
         <Route path="/dashboard/analytics" element={<Analytics />} />
         <Route path="/dashboard/leaderboard" element={<Leaderboard />} />
-        <Route path="/dashboard/settings" element={<Settings />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/dashboard/settings" element={<Navigate to="/settings" replace />} />
         <Route path="*" element={<Navigate to="/signin" replace />} />
       </Routes>
     </Router>
