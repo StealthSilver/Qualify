@@ -24,6 +24,7 @@ interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
   onCollapseChange?: (collapsed: boolean) => void;
+  disableNavigation?: boolean;
 }
 
 interface NavItem {
@@ -42,7 +43,7 @@ const navItems: NavItem[] = [
   { label: 'Settings', path: '/dashboard/settings', icon: Settings },
 ];
 
-export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCollapseChange }: SidebarProps) {
+export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCollapseChange, disableNavigation = false }: SidebarProps) {
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -51,6 +52,14 @@ export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCol
     const newCollapsedState = !isCollapsed;
     setIsCollapsed(newCollapsedState);
     onCollapseChange?.(newCollapsedState);
+  };
+
+  const handleNavClick = (e: React.MouseEvent, path: string) => {
+    if (disableNavigation && location.pathname !== path) {
+      e.preventDefault();
+    } else {
+      onClose?.();
+    }
   };
 
   return (
@@ -73,7 +82,11 @@ export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCol
         {/* Logo/Brand Section */}
         <div className="h-[72px] border-b border-dotted border-[#393f5b]/15 flex items-center justify-between px-6">
           {!isCollapsed ? (
-            <Link to="/dashboard" className="flex-1" onClick={onClose}>
+            <Link 
+              to="/dashboard" 
+              className="flex-1" 
+              onClick={(e) => handleNavClick(e, '/dashboard')}
+            >
               <img 
                 src="/logo-light.svg" 
                 alt="Spardha" 
@@ -81,7 +94,11 @@ export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCol
               />
             </Link>
           ) : (
-            <Link to="/dashboard" className="flex-1 flex justify-center" onClick={onClose}>
+            <Link 
+              to="/dashboard" 
+              className="flex-1 flex justify-center" 
+              onClick={(e) => handleNavClick(e, '/dashboard')}
+            >
               <img 
                 src="/logo-sm.svg" 
                 alt="Spardha" 
@@ -116,15 +133,18 @@ export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCol
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
+              const isDisabled = disableNavigation && !isActive;
               
               return (
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    onClick={onClose}
+                    onClick={(e) => handleNavClick(e, item.path)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-200 group ${
                       isActive
                         ? 'bg-[#393f5b] text-white shadow-md'
+                        : isDisabled
+                        ? 'text-[#070a05]/30 cursor-not-allowed opacity-50'
                         : 'text-[#070a05]/70 hover:bg-[#393f5b]/5 hover:text-[#393f5b]'
                     } ${isCollapsed ? 'justify-center' : ''}`}
                     title={isCollapsed ? item.label : undefined}
@@ -132,7 +152,11 @@ export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCol
                     <Icon 
                       size={20} 
                       className={`flex-shrink-0 ${
-                        isActive ? 'text-white' : 'text-[#393f5b] group-hover:text-[#393f5b]'
+                        isActive 
+                          ? 'text-white' 
+                          : isDisabled
+                          ? 'text-[#070a05]/30'
+                          : 'text-[#393f5b] group-hover:text-[#393f5b]'
                       }`}
                     />
                     {!isCollapsed && (
@@ -160,7 +184,7 @@ export default function Sidebar({ user, onLogout, isOpen = false, onClose, onCol
               {!isCollapsed && (
                 <div className="flex-1 text-left overflow-hidden">
                   <p className="text-sm font-medium text-[#070a05] truncate">
-                    {user.name}
+                    {user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
                   </p>
                   <p className="text-xs text-[#070a05]/60 truncate">
                     {user.email}

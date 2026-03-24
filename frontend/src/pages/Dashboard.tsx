@@ -135,11 +135,8 @@ export default function Dashboard() {
                 fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
               }}
             >
-              Welcome back, <span className="text-[#393f5b]">{user.name}</span>
+              Welcome back, <span className="text-[#393f5b]">{user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}</span>
             </h1>
-            <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
-              Ready to continue your preparation?
-            </p>
           </div>
           
           {/* Mobile Menu Button */}
