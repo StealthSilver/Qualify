@@ -3,6 +3,9 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import Practice from './pages/Practice';
+import Subject from './pages/Subject';
+import ChapterQuestions from './pages/ChapterQuestions';
+import QuestionSolve from './pages/QuestionSolve';
 import DailyPractice from './pages/DailyPractice';
 import DPPTest from './pages/DPPTest';
 import MockTests from './pages/MockTests';
@@ -19,6 +22,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/practice" element={<Practice />} />
+        <Route path="/dashboard/practice/:subjectId" element={<Subject />} />
+        <Route path="/dashboard/practice/:subjectId/:chapterId" element={<ChapterQuestions />} />
+        <Route path="/dashboard/practice/:subjectId/:chapterId/:questionId" element={<QuestionSolve />} />
         <Route path="/dashboard/daily-practice" element={<DailyPractice />} />
         <Route path="/dashboard/dpp/:date" element={<DPPTest />} />
         <Route path="/dashboard/mock-tests" element={<MockTests />} />
