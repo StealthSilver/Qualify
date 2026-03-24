@@ -602,7 +602,7 @@ export default function Analytics() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mt-8 md:mt-12 mb-8 md:mb-12">
             <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md">
               <div className="flex items-center justify-between mb-6">
                 <div>
@@ -674,13 +674,13 @@ export default function Analytics() {
                 ].map((test, i) => (
                   <div 
                     key={i}
-                    className="p-4 rounded-lg border border-[#393f5b]/10 hover:border-[#393f5b]/30 transition-all hover:shadow-sm"
+                    className="px-4 py-3 rounded-lg border border-[#393f5b]/10 hover:border-[#393f5b]/30 transition-all hover:shadow-sm"
                   >
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-sm font-medium text-[#070a05]">
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <h3 className="text-sm font-medium text-[#070a05] flex-1">
                         {test.name}
                       </h3>
-                      <span className={`text-sm font-medium px-2 py-0.5 rounded ${
+                      <span className={`text-sm font-medium px-2.5 py-1 rounded flex-shrink-0 ${
                         test.score >= 90 
                           ? 'bg-emerald-100 text-emerald-700'
                           : test.score >= 75
@@ -700,7 +700,7 @@ export default function Analytics() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-[#393f5b] to-[#2f3450] rounded-lg p-6 shadow-lg text-white">
+          <div className="bg-gradient-to-r from-[#393f5b] to-[#2f3450] rounded-lg p-6 shadow-lg text-white mt-8 md:mt-12">
             <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
               <div className="flex-1">
                 <h2 className="text-xl font-light tracking-tight mb-2">
