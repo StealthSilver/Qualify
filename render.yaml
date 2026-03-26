@@ -1,0 +1,10 @@
+# Optional: connect repo in Render → Blueprints → New Blueprint Instance → select this file.
+# Or create the Web Service manually (see deployment steps) and skip this file.
+services:
+  - type: web
+    name: spardha-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /

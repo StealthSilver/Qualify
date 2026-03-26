@@ -10,8 +10,25 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+const defaultDevOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
+  "http://localhost:5176",
+  "http://localhost:5177",
+  "http://localhost:5178",
+];
+
+function corsOrigin(): string | string[] {
+  const raw = process.env.FRONTEND_URL?.trim();
+  if (!raw) return defaultDevOrigins;
+  const list = raw.split(",").map((s) => s.trim()).filter(Boolean);
+  if (list.length === 0) return defaultDevOrigins;
+  return list.length === 1 ? list[0]! : list;
+}
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "http://localhost:5177", "http://localhost:5178"],
+  origin: corsOrigin(),
   credentials: true,
 }));
 

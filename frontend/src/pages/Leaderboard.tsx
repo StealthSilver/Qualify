@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Trophy, Medal, Crown, TrendingUp, Target, Zap, Clock, Award, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import { API_BASE_URL } from '../services/api';
 
 interface UserData {
   id: string;
@@ -79,7 +80,7 @@ export default function Leaderboard() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8000/api/leaderboard?limit=100`, {
+      const response = await fetch(`${API_BASE_URL}/leaderboard?limit=100`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -102,7 +103,7 @@ export default function Leaderboard() {
   const fetchUserRank = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8000/api/leaderboard/rank`, {
+      const response = await fetch(`${API_BASE_URL}/leaderboard/rank`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
