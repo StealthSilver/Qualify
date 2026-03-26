@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { ChevronRight, ArrowRight } from "lucide-react";
+import { SIGNIN_URL } from "@/lib/app-urls";
 import TestimonialCard from "../ui/TestimonialCard";
 
 interface Testimonial {
@@ -293,7 +294,8 @@ export default function Testimonials() {
           <p className="text-xl md:text-2xl lg:text-3xl font-light text-[#393f5b] mb-6 leading-relaxed">
             You could be the next success story.
           </p>
-          <motion.button
+          <motion.a
+            href={SIGNIN_URL}
             whileHover={
               prefersReducedMotion
                 ? {}
@@ -302,7 +304,7 @@ export default function Testimonials() {
                   }
             }
             whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
-            className="relative bg-[#393f5b] text-white px-8 py-4 rounded-md text-base font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#2f3450] overflow-hidden group"
+            className="relative inline-flex bg-[#393f5b] text-white px-8 py-4 rounded-md text-base font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#2f3450] overflow-hidden group"
           >
             {/* Subtle gradient overlay on button */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -320,7 +322,7 @@ export default function Testimonials() {
                 />
               </span>
             </span>
-          </motion.button>
+          </motion.a>
         </motion.div>
       </div>
 

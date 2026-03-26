@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, ChevronRight } from "lucide-react";
+import { SIGNIN_URL } from "@/lib/app-urls";
 import LogoTicker from "../ui/LogoTicker";
 import QuestionSolvingAnimation from "../ui/QuestionSolvingAnimation";
 
@@ -60,7 +61,8 @@ export default function Hero() {
 
             {/* CTA Button - Touch-friendly on mobile */}
             <div className="mt-4 xs:mt-5 sm:mt-8 md:mt-10">
-              <button 
+              <a
+                href={SIGNIN_URL}
                 className="group relative flex items-center justify-center gap-1.5 xs:gap-2 bg-[#393f5b] text-white rounded-md xs:rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#2f3450] active:scale-95 overflow-hidden w-full sm:w-auto sm:inline-flex"
                 style={{
                   padding: 'clamp(0.5rem, 1vw + 0.15rem, 1rem) clamp(0.875rem, 2.2vw + 0.3rem, 2rem)',
@@ -97,7 +99,7 @@ export default function Hero() {
                     className="absolute opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 hidden sm:block"
                   />
                 </span>
-              </button>
+              </a>
             </div>
           </div>
         </div>

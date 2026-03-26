@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { SIGNIN_URL } from "@/lib/app-urls";
 import StoryFrame from "../ui/StoryFrame";
 import StepMorning from "../ui/StepMorning";
 import StepAfternoon from "../ui/StepAfternoon";
@@ -181,9 +182,12 @@ function FeaturesStatic() {
           <p className="text-xl md:text-2xl lg:text-3xl font-light text-[#393f5b] mb-6 leading-relaxed">
             Small daily improvements. Massive rank shifts.
           </p>
-          <button className="bg-[#393f5b] text-white px-8 py-4 rounded-lg text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#2f3450]">
+          <a
+            href={SIGNIN_URL}
+            className="inline-block bg-[#393f5b] text-white px-8 py-4 rounded-lg text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#2f3450]"
+          >
             Start Competing
-          </button>
+          </a>
         </div>
       </div>
     </section>

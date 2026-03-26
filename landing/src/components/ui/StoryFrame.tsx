@@ -2,6 +2,7 @@
 
 import { motion, MotionValue, useTransform } from "framer-motion";
 import { ReactNode } from "react";
+import { SIGNIN_URL } from "@/lib/app-urls";
 
 interface StoryFrameProps {
   children: ReactNode;
@@ -122,9 +123,12 @@ export default function StoryFrame({ children, ctaProgress, scrollYProgress }: S
               <br />
               Massive rank shifts.
             </p>
-            <button className="group relative bg-[#393f5b] text-white px-5 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-lg text-xs sm:text-sm md:text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#2f3450] overflow-hidden">
+            <a
+              href={SIGNIN_URL}
+              className="group relative inline-block bg-[#393f5b] text-white px-5 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-lg text-xs sm:text-sm md:text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#2f3450] overflow-hidden"
+            >
               <span className="relative z-10">Start Competing</span>
-            </button>
+            </a>
           </div>
         </motion.div>
       </motion.div>

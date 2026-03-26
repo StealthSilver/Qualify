@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { SIGNIN_URL } from "@/lib/app-urls";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -139,7 +140,8 @@ export default function Navbar() {
         </motion.div>
 
         {/* CTA Button (Desktop) */}
-        <motion.button 
+        <motion.a
+          href={SIGNIN_URL}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: isLoaded ? 1 : 0, x: isLoaded ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
@@ -160,7 +162,7 @@ export default function Navbar() {
               className="absolute opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
             />
           </span>
-        </motion.button>
+        </motion.a>
 
         {/* Hamburger (Mobile) - Right Side */}
         <motion.button
@@ -233,7 +235,8 @@ export default function Navbar() {
           </div>
 
           {/* CTA Button (Mobile) */}
-          <button
+          <a
+            href={SIGNIN_URL}
             className="mt-8 flex items-center justify-center gap-2 bg-[#393f5b] text-white px-5 py-3 rounded-md text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#2f3450] group w-full"
             style={{
               animation: isOpen ? "slideIn 0.3s ease-out 0.5s both" : "none",
@@ -252,7 +255,7 @@ export default function Navbar() {
                 className="absolute opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
               />
             </span>
-          </button>
+          </a>
         </div>
       </div>
 
