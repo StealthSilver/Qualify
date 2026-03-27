@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 
 interface PlaceholderPageProps {
   title: string;
@@ -20,7 +27,7 @@ export default function PlaceholderPage({ title, description, icon: Icon }: Plac
   };
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -29,30 +36,25 @@ export default function PlaceholderPage({ title, description, icon: Icon }: Plac
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <h1 
-            className="font-light leading-tight tracking-tight text-[#393f5b]"
-            style={{
-              fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-            }}
-          >
-            {title}
-          </h1>
-          
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
-          >
-            <Menu size={24} className="text-[#393f5b]" />
-          </button>
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 w-full">
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2.5 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
+            >
+              <Menu size={22} className="text-[#393f5b]" />
+            </button>
+            <h1 className={`${DASHBOARD_TITLE_CLASS} text-[#393f5b] min-w-0 flex-1`} style={dashboardTitleStyle}>
+              {title}
+            </h1>
+          </div>
         </div>
 
-        <div className="flex items-center justify-center min-h-[calc(100vh-72px)] p-6">
-          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-8 sm:p-12 shadow-lg text-center max-w-md">
+        <div className="flex items-center justify-center min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-4.5rem)] p-4 sm:p-6">
+          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 sm:p-8 md:p-12 shadow-lg text-center max-w-md w-full mx-auto">
             {Icon && (
               <div className="inline-flex p-4 bg-[#393f5b]/10 rounded-full mb-6">
                 <Icon className="text-[#393f5b]" size={48} />

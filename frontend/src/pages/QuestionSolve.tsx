@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Menu, ArrowLeft, CheckCircle2, XCircle, Lightbulb, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 import { getSubjectById, getChapterById } from '../data/jeeChapters';
 import { getQuestionsForChapter, saveQuestionProgress, getQuestionProgress } from '../data/questions';
 import type { Question } from '../data/questions';
@@ -156,7 +164,7 @@ export default function QuestionSolve() {
   const hasNext = currentQuestionNumber < questions.length;
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -165,44 +173,37 @@ export default function QuestionSolve() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        {/* Top Bar */}
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex items-center gap-4">
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1">
             <button
+              type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="lg:hidden p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              <Menu size={24} className="text-[#393f5b]" />
+              <Menu size={22} className="text-[#393f5b]" />
             </button>
             <Link 
               to={`/dashboard/practice/${subjectId}/${chapterId}`}
-              className="p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors inline-flex items-center justify-center shrink-0 touch-manipulation"
+              aria-label="Back to question list"
             >
               <ArrowLeft size={20} className="text-[#393f5b]" />
             </Link>
-            <div>
-              <h1 
-                className="font-light leading-tight tracking-tight"
-                style={{
-                  fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-                }}
-              >
+            <div className="min-w-0">
+              <h1 className={DASHBOARD_TITLE_CLASS} style={dashboardTitleStyle}>
                 Question {currentQuestion.id}
               </h1>
-              <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
+              <p className="text-[0.65rem] sm:text-xs text-[#070a05]/60 mt-0.5 line-clamp-1 sm:line-clamp-none">
                 {subject.name} • {chapter.name}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Question Content */}
-        <div className="p-4 sm:p-6 md:p-12 max-w-4xl mx-auto">
-          {/* Question Card */}
-          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 md:p-8 shadow-md mb-6">
+        <div className={`${DASHBOARD_CONTENT_CLASS} max-w-4xl`}>
+          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-8 shadow-md mb-4 sm:mb-6 min-w-0">
             {/* Question Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -221,8 +222,8 @@ export default function QuestionSolve() {
             </div>
 
             {/* Question Text */}
-            <div className="mb-8">
-              <p className="text-lg text-[#070a05] leading-relaxed">
+            <div className="mb-6 sm:mb-8">
+              <p className="text-base sm:text-lg text-[#070a05] leading-relaxed break-words">
                 {currentQuestion.question}
               </p>
             </div>
@@ -233,7 +234,7 @@ export default function QuestionSolve() {
                 const isSelected = selectedAnswer === index;
                 const isCorrectOption = index === currentQuestion.correctAnswer;
                 
-                let optionClass = "w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ";
+                let optionClass = "w-full text-left p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 touch-manipulation min-h-[3rem] sm:min-h-0 ";
                 
                 if (showResult) {
                   if (isCorrectOption) {
@@ -359,29 +360,31 @@ export default function QuestionSolve() {
           </div>
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <button
+              type="button"
               onClick={handlePreviousQuestion}
               disabled={!hasPrevious}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-[#393f5b]/20 hover:border-[#393f5b]/40 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors bg-white"
+              className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-lg border-2 border-[#393f5b]/20 hover:border-[#393f5b]/40 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors bg-white touch-manipulation order-2 sm:order-1 w-full sm:w-auto"
             >
               <ChevronLeft size={20} className="text-[#393f5b]" />
-              <span className="font-medium text-[#070a05]">Previous</span>
+              <span className="font-medium text-[#070a05] text-sm sm:text-base">Previous</span>
             </button>
 
             <Link
               to={`/dashboard/practice/${subjectId}/${chapterId}`}
-              className="px-6 py-3 rounded-lg border-2 border-[#393f5b]/20 hover:border-[#393f5b]/40 hover:bg-white transition-colors bg-white font-medium text-[#070a05]"
+              className="px-4 sm:px-6 py-3 rounded-lg border-2 border-[#393f5b]/20 hover:border-[#393f5b]/40 hover:bg-white transition-colors bg-white font-medium text-[#070a05] text-sm sm:text-base text-center touch-manipulation order-1 sm:order-2 w-full sm:w-auto"
             >
               Back to Questions
             </Link>
 
             <button
+              type="button"
               onClick={handleNextQuestion}
               disabled={!hasNext}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-[#393f5b]/20 hover:border-[#393f5b]/40 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors bg-white"
+              className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-lg border-2 border-[#393f5b]/20 hover:border-[#393f5b]/40 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors bg-white touch-manipulation order-3 w-full sm:w-auto"
             >
-              <span className="font-medium text-[#070a05]">Next</span>
+              <span className="font-medium text-[#070a05] text-sm sm:text-base">Next</span>
               <ChevronRight size={20} className="text-[#393f5b]" />
             </button>
           </div>

@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Menu, BookOpen, ChevronRight } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 import { jeeSubjects, getCompletedQuestionsCount } from '../data/jeeChapters';
 
 interface UserData {
@@ -56,7 +64,7 @@ export default function Practice() {
   }
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -65,37 +73,30 @@ export default function Practice() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        {/* Top Bar */}
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex items-center gap-4">
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
             <button
+              type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="lg:hidden p-2.5 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              <Menu size={24} className="text-[#393f5b]" />
+              <Menu size={22} className="text-[#393f5b]" />
             </button>
-            <div>
-              <h1 
-                className="font-light leading-tight tracking-tight"
-                style={{
-                  fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-                }}
-              >
+            <div className="min-w-0">
+              <h1 className={DASHBOARD_TITLE_CLASS} style={dashboardTitleStyle}>
                 Practice
               </h1>
-              <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
+              <p className="text-[0.65rem] sm:text-xs md:text-sm text-[#070a05]/60 mt-0.5 leading-snug">
                 Choose a subject to start practicing
               </p>
             </div>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-4 sm:p-6 md:p-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className={DASHBOARD_CONTENT_CLASS}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {jeeSubjects.map((subject) => {
               const totalQuestions = subject.chapters.reduce((sum, ch) => sum + ch.totalQuestions, 0);
               const completedQuestions = subject.chapters.reduce((sum, ch) => 
@@ -107,17 +108,17 @@ export default function Practice() {
                 <Link
                   key={subject.id}
                   to={`/dashboard/practice/${subject.id}`}
-                  className="group bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  className="group bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-5 sm:p-6 md:p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 min-w-0"
                 >
-                  <div className={`w-16 h-16 ${subject.color} rounded-lg flex items-center justify-center mb-6`}>
-                    <BookOpen className="text-white" size={32} />
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 ${subject.color} rounded-lg flex items-center justify-center mb-4 sm:mb-5 md:mb-6`}>
+                    <BookOpen className="text-white" size={26} />
                   </div>
                   
-                  <h2 className="text-2xl font-light tracking-tight text-[#070a05] mb-2">
+                  <h2 className="text-xl sm:text-2xl font-light tracking-tight text-[#070a05] mb-1 sm:mb-2">
                     {subject.name}
                   </h2>
                   
-                  <p className="text-sm text-[#070a05]/60 mb-4">
+                  <p className="text-xs sm:text-sm text-[#070a05]/60 mb-3 sm:mb-4">
                     {subject.chapters.length} chapters • {totalQuestions} questions
                   </p>
 

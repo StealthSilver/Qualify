@@ -3,6 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Menu, TrendingUp, Target, Award, BookOpen, Clock, Calendar as CalendarIcon } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
+import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
@@ -322,7 +330,7 @@ export default function Analytics() {
   ];
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -331,36 +339,34 @@ export default function Analytics() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex items-center gap-4 flex-1">
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div
+          className={`${DASHBOARD_TOPBAR_CLASS} flex-col items-stretch sm:flex-row sm:items-center sm:justify-between w-full gap-3`}
+        >
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 w-full">
             <button
+              type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="lg:hidden p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              <Menu size={24} className="text-[#393f5b]" />
+              <Menu size={22} className="text-[#393f5b]" />
             </button>
-            <div>
-              <h1 
-                className="font-light leading-tight tracking-tight"
-                style={{
-                  fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-                }}
-              >
+            <div className="min-w-0">
+              <h1 className={DASHBOARD_TITLE_CLASS} style={dashboardTitleStyle}>
                 Analytics
               </h1>
-              <p className="text-sm text-[#070a05]/60 mt-1">
+              <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5 sm:mt-1">
                 Track your performance and progress
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-white rounded-lg border border-[#393f5b]/20 p-1">
+          <div className="flex items-center gap-1 sm:gap-2 bg-white rounded-lg border border-[#393f5b]/20 p-1 self-stretch sm:self-auto w-full sm:w-auto justify-center sm:justify-end shrink-0 overflow-x-auto">
             <button
+              type="button"
               onClick={() => setTimeRange('week')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all touch-manipulation whitespace-nowrap ${
                 timeRange === 'week'
                   ? 'bg-[#393f5b] text-white'
                   : 'text-[#070a05]/60 hover:text-[#393f5b]'
@@ -369,8 +375,9 @@ export default function Analytics() {
               Week
             </button>
             <button
+              type="button"
               onClick={() => setTimeRange('month')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all touch-manipulation whitespace-nowrap ${
                 timeRange === 'month'
                   ? 'bg-[#393f5b] text-white'
                   : 'text-[#070a05]/60 hover:text-[#393f5b]'
@@ -379,8 +386,9 @@ export default function Analytics() {
               Month
             </button>
             <button
+              type="button"
               onClick={() => setTimeRange('year')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all touch-manipulation whitespace-nowrap ${
                 timeRange === 'year'
                   ? 'bg-[#393f5b] text-white'
                   : 'text-[#070a05]/60 hover:text-[#393f5b]'
@@ -391,14 +399,14 @@ export default function Analytics() {
           </div>
         </div>
 
-        <div className="p-4 sm:p-6 md:p-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+        <div className={DASHBOARD_CONTENT_CLASS}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-5 sm:mb-6 md:mb-8">
             {stats.map((stat) => {
               const Icon = stat.icon;
               return (
                 <div 
                   key={stat.label}
-                  className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md hover:shadow-lg transition-all duration-300"
+                  className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-md hover:shadow-lg transition-all duration-300 min-w-0"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className={`p-3 rounded-lg ${stat.color}`}>

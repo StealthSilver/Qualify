@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Trophy, Medal, Crown, TrendingUp, Target, Zap, Clock, Award, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 import { API_BASE_URL } from '../services/api';
 
 interface UserData {
@@ -251,7 +259,7 @@ export default function Leaderboard() {
   }
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -260,36 +268,34 @@ export default function Leaderboard() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex items-center gap-4 flex-1">
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div
+          className={`${DASHBOARD_TOPBAR_CLASS} flex-col items-stretch lg:flex-row lg:items-center lg:justify-between w-full gap-3`}
+        >
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 w-full">
             <button
+              type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="lg:hidden p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              <Menu size={24} className="text-[#393f5b]" />
+              <Menu size={22} className="text-[#393f5b]" />
             </button>
-            <div>
-              <h1 
-                className="font-light leading-tight tracking-tight"
-                style={{
-                  fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-                }}
-              >
+            <div className="min-w-0">
+              <h1 className={DASHBOARD_TITLE_CLASS} style={dashboardTitleStyle}>
                 Leaderboard
               </h1>
-              <p className="text-sm text-[#070a05]/60 mt-1">
+              <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5 sm:mt-1">
                 See how you rank against other students
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-white rounded-lg border border-[#393f5b]/20 p-1">
+          <div className="flex flex-wrap items-center gap-1 sm:gap-2 bg-white rounded-lg border border-[#393f5b]/20 p-1 w-full lg:w-auto justify-center lg:justify-end shrink-0">
             <button
+              type="button"
               onClick={() => setFilter('all')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all touch-manipulation ${
                 filter === 'all'
                   ? 'bg-[#393f5b] text-white'
                   : 'text-[#070a05]/60 hover:text-[#393f5b]'
@@ -298,8 +304,9 @@ export default function Leaderboard() {
               All
             </button>
             <button
+              type="button"
               onClick={() => setFilter('physics')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all touch-manipulation ${
                 filter === 'physics'
                   ? 'bg-[#393f5b] text-white'
                   : 'text-[#070a05]/60 hover:text-[#393f5b]'
@@ -308,8 +315,9 @@ export default function Leaderboard() {
               Physics
             </button>
             <button
+              type="button"
               onClick={() => setFilter('chemistry')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all touch-manipulation ${
                 filter === 'chemistry'
                   ? 'bg-[#393f5b] text-white'
                   : 'text-[#070a05]/60 hover:text-[#393f5b]'
@@ -318,8 +326,9 @@ export default function Leaderboard() {
               Chemistry
             </button>
             <button
+              type="button"
               onClick={() => setFilter('mathematics')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition-all touch-manipulation ${
                 filter === 'mathematics'
                   ? 'bg-[#393f5b] text-white'
                   : 'text-[#070a05]/60 hover:text-[#393f5b]'
@@ -330,9 +339,9 @@ export default function Leaderboard() {
           </div>
         </div>
 
-        <div className="p-4 sm:p-6 md:p-12">
+        <div className={DASHBOARD_CONTENT_CLASS}>
           {userRank && (
-            <div className="bg-gradient-to-r from-[#393f5b] to-[#2f3450] rounded-lg p-6 shadow-lg text-white mb-6 md:mb-8">
+            <div className="bg-gradient-to-r from-[#393f5b] to-[#2f3450] rounded-lg p-4 sm:p-6 shadow-lg text-white mb-5 sm:mb-6 md:mb-8">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -511,28 +520,28 @@ export default function Leaderboard() {
                 <table className="w-full">
                   <thead className="bg-[#393f5b]/5 border-b border-dotted border-[#393f5b]/15">
                     <tr>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-left text-[0.65rem] sm:text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
                         Rank
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-left text-[0.65rem] sm:text-xs font-medium text-[#070a05]/70 uppercase tracking-wider min-w-[7rem]">
                         Student
                       </th>
-                      <th className="px-6 py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
-                        Accuracy
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center text-[0.65rem] sm:text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
+                        Acc.
                       </th>
-                      <th className="px-6 py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
-                        Questions
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center text-[0.65rem] sm:text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
+                        Qs
                       </th>
-                      <th className="px-6 py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider hidden md:table-cell">
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider hidden md:table-cell">
                         Score
                       </th>
-                      <th className="px-6 py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider hidden lg:table-cell">
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider hidden lg:table-cell">
                         Streak
                       </th>
-                      <th className="px-6 py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
-                        Points
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center text-[0.65rem] sm:text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
+                        Pts
                       </th>
-                      <th className="px-6 py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider">
+                      <th className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center text-xs font-medium text-[#070a05]/70 uppercase tracking-wider w-10">
                         
                       </th>
                     </tr>
@@ -550,7 +559,7 @@ export default function Leaderboard() {
                               isCurrentUser ? 'bg-[#393f5b]/10' : ''
                             }`}
                           >
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 whitespace-nowrap">
                               <div className="flex items-center gap-2">
                                 {entry.rank <= 3 && getRankIcon(entry.rank)}
                                 <span className={`inline-flex items-center justify-center min-w-[32px] h-8 px-2 rounded-md text-sm font-medium ${getRankBadgeColor(entry.rank)}`}>
@@ -558,9 +567,9 @@ export default function Leaderboard() {
                                 </span>
                               </div>
                             </td>
-                            <td className="px-6 py-4">
-                              <div>
-                                <div className="font-medium text-[#070a05] flex items-center gap-2">
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 max-w-[9rem] sm:max-w-none">
+                              <div className="min-w-0">
+                                <div className="font-medium text-[#070a05] flex flex-wrap items-center gap-1 sm:gap-2 text-sm">
                                   {entry.name}
                                   {isCurrentUser && (
                                     <span className="text-xs bg-[#393f5b] text-white px-2 py-0.5 rounded-full">
@@ -568,13 +577,13 @@ export default function Leaderboard() {
                                     </span>
                                   )}
                                 </div>
-                                <div className="text-xs text-[#070a05]/60 mt-0.5">
+                                <div className="text-[0.65rem] sm:text-xs text-[#070a05]/60 mt-0.5 truncate">
                                   {entry.email}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-center">
-                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center">
+                              <span className={`inline-flex items-center px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[0.65rem] sm:text-xs font-medium ${
                                 entry.averageAccuracy >= 90
                                   ? 'bg-emerald-100 text-emerald-700'
                                   : entry.averageAccuracy >= 75
@@ -586,17 +595,17 @@ export default function Leaderboard() {
                                 {entry.averageAccuracy.toFixed(1)}%
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-center">
-                              <span className="text-sm font-medium text-[#070a05]">
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center">
+                              <span className="text-xs sm:text-sm font-medium text-[#070a05]">
                                 {entry.totalQuestionsAttempted}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-center hidden md:table-cell">
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center hidden md:table-cell">
                               <span className="text-sm font-medium text-[#393f5b]">
                                 {entry.totalScore}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-center hidden lg:table-cell">
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center hidden lg:table-cell">
                               <div className="flex items-center justify-center gap-1">
                                 <Zap size={14} className="text-amber-500" />
                                 <span className="text-sm font-medium">
@@ -604,15 +613,15 @@ export default function Leaderboard() {
                                 </span>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-center">
-                              <span className="text-sm font-bold text-[#393f5b]">
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center">
+                              <span className="text-xs sm:text-sm font-bold text-[#393f5b] tabular-nums">
                                 {entry.rankPoints.toLocaleString()}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-center">
+                            <td className="px-2 sm:px-3 md:px-6 py-3 md:py-4 text-center">
                               <button
                                 onClick={() => setExpandedUserId(isExpanded ? null : entry.userId)}
-                                className="p-1 rounded-md hover:bg-[#393f5b]/10 transition-colors"
+                                className="p-2 min-w-11 min-h-11 sm:min-w-0 sm:min-h-0 sm:p-1 rounded-md hover:bg-[#393f5b]/10 transition-colors touch-manipulation inline-flex items-center justify-center"
                               >
                                 <ChevronDown 
                                   size={16} 
@@ -625,7 +634,7 @@ export default function Leaderboard() {
                           </tr>
                           {isExpanded && (
                             <tr className={`bg-[#393f5b]/5 ${isCurrentUser ? 'bg-[#393f5b]/15' : ''}`}>
-                              <td colSpan={8} className="px-6 py-4">
+                              <td colSpan={8} className="px-3 sm:px-6 py-4">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                   <div className="space-y-3">
                                     <h4 className="text-sm font-medium text-[#070a05]">

@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Menu, ArrowLeft, CheckCircle2, Circle, AlertCircle } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 import { getSubjectById, getChapterById } from '../data/jeeChapters';
 import { getQuestionsForChapter, getQuestionProgress } from '../data/questions';
 import type { Question } from '../data/questions';
@@ -104,7 +112,7 @@ export default function Chapter() {
   const completionPercentage = Math.round((completedCount / questions.length) * 100);
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -113,45 +121,40 @@ export default function Chapter() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        {/* Top Bar */}
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex items-center gap-4 flex-1">
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1">
             <button
+              type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="lg:hidden p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              <Menu size={24} className="text-[#393f5b]" />
+              <Menu size={22} className="text-[#393f5b]" />
             </button>
             <Link 
               to={`/dashboard/practice/${subjectId}`}
-              className="p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors inline-flex items-center justify-center shrink-0 touch-manipulation"
+              aria-label="Back to chapters"
             >
               <ArrowLeft size={20} className="text-[#393f5b]" />
             </Link>
-            <div className="flex-1">
-              <h1 
-                className="font-light leading-tight tracking-tight"
-                style={{
-                  fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-                }}
-              >
+            <div className="flex-1 min-w-0">
+              <h1 className={`${DASHBOARD_TITLE_CLASS} line-clamp-2`} style={dashboardTitleStyle}>
                 {chapter.name}
               </h1>
-              <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
-                {subject.name} • {completedCount}/{questions.length} questions completed
+              <p className="text-[0.65rem] sm:text-xs md:text-sm text-[#070a05]/60 mt-0.5">
+                {subject.name} • {completedCount}/{questions.length} completed
               </p>
             </div>
           </div>
         </div>
 
         {/* Progress Banner */}
-        <div className="bg-white border-b border-dotted border-[#393f5b]/15 px-6 md:px-12 py-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-[#070a05]">Chapter Progress</span>
-            <span className="text-sm font-medium text-[#393f5b]">{completionPercentage}%</span>
+        <div className="bg-white border-b border-dotted border-[#393f5b]/15 px-3 sm:px-4 md:px-6 lg:px-10 py-3 sm:py-4 w-full max-w-[1920px] mx-auto">
+          <div className="flex items-center justify-between mb-2 gap-2">
+            <span className="text-xs sm:text-sm font-medium text-[#070a05]">Chapter Progress</span>
+            <span className="text-xs sm:text-sm font-medium text-[#393f5b]">{completionPercentage}%</span>
           </div>
           <div className="w-full h-2 bg-[#393f5b]/10 rounded-full overflow-hidden">
             <div 
@@ -162,8 +165,8 @@ export default function Chapter() {
         </div>
 
         {/* Questions Grid */}
-        <div className="p-4 sm:p-6 md:p-12">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+        <div className={DASHBOARD_CONTENT_CLASS}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
             {questions.map((question) => {
               const status = getQuestionStatus(question.id, question.correctAnswer);
               
@@ -171,7 +174,7 @@ export default function Chapter() {
                 <Link
                   key={question.id}
                   to={`/dashboard/practice/${subjectId}/${chapterId}/${question.id}`}
-                  className={`relative group bg-white/95 backdrop-blur-md rounded-lg border p-4 shadow-sm hover:shadow-md transition-all duration-300 ${
+                  className={`relative group bg-white/95 backdrop-blur-md rounded-lg border p-2.5 sm:p-3 md:p-4 shadow-sm hover:shadow-md transition-all duration-300 min-h-[5.5rem] sm:min-h-0 touch-manipulation ${
                     status === 'correct' 
                       ? 'border-emerald-300 bg-emerald-50/50' 
                       : status === 'incorrect'

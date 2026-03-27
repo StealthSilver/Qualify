@@ -13,6 +13,14 @@ import {
   Clock,
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 import { authService } from '../services/api';
 import {
   loadPreferences,
@@ -187,7 +195,7 @@ export default function Settings() {
   }
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar
         user={user}
         onLogout={handleLogout}
@@ -196,34 +204,29 @@ export default function Settings() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div
-        className={`relative min-h-screen z-[2] transition-all duration-300 ${
-          sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-        }`}
-      >
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex-1">
-            <h1
-              className="font-light leading-tight tracking-tight text-[#070a05]"
-              style={{ fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)' }}
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 w-full">
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2.5 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              Settings
-            </h1>
-            <p className="text-sm text-[#070a05]/55 mt-0.5 hidden sm:block">
-              Account, notifications, and security
-            </p>
+              <Menu size={22} className="text-[#393f5b]" />
+            </button>
+            <div className="flex-1 min-w-0">
+              <h1 className={`${DASHBOARD_TITLE_CLASS} text-[#070a05]`} style={dashboardTitleStyle}>
+                Settings
+              </h1>
+              <p className="text-xs sm:text-sm text-[#070a05]/55 mt-0.5">
+                Account, notifications, and security
+              </p>
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
-            aria-label="Open menu"
-          >
-            <Menu size={24} className="text-[#393f5b]" />
-          </button>
         </div>
 
-        <div className="p-4 sm:p-6 md:p-12 max-w-3xl space-y-6 md:space-y-8">
+        <div className={`${DASHBOARD_CONTENT_CLASS} max-w-3xl space-y-5 sm:space-y-6 md:space-y-8`}>
           {initialLoad && (
             <div className="flex items-center gap-2 text-sm text-[#070a05]/50">
               <Loader2 className="animate-spin" size={18} />
@@ -231,7 +234,7 @@ export default function Settings() {
             </div>
           )}
 
-          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md">
+          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-md min-w-0">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2.5 rounded-lg bg-[#393f5b]/10">
                 <User size={20} className="text-[#393f5b]" />
@@ -289,7 +292,7 @@ export default function Settings() {
             </form>
           </div>
 
-          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md">
+          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-md min-w-0">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2.5 rounded-lg bg-[#393f5b]/10">
                 <Bell size={20} className="text-[#393f5b]" />
@@ -375,7 +378,7 @@ export default function Settings() {
             </ul>
           </div>
 
-          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md">
+          <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-md min-w-0">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2.5 rounded-lg bg-[#393f5b]/10">
                 <Shield size={20} className="text-[#393f5b]" />

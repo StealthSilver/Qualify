@@ -13,6 +13,13 @@ import {
   XCircle
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 
 interface UserData {
   id: string;
@@ -506,7 +513,7 @@ export default function DPPTest() {
 
   if (testSubmitted) {
     return (
-      <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+      <section className={DASHBOARD_SECTION_CLASS}>
         <Sidebar 
           user={user} 
           onLogout={handleLogout}
@@ -516,19 +523,19 @@ export default function DPPTest() {
           disableNavigation={!viewingResults}
         />
 
-        <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-          sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-        }`}>
-          <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-            <h1 className="font-light leading-tight tracking-tight text-[#393f5b]" style={{ fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)' }}>
-              DPP Result - {date}
-            </h1>
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors">
-              <Menu size={24} className="text-[#393f5b]" />
-            </button>
+        <div className={dashboardMainClass(sidebarCollapsed)}>
+          <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 w-full">
+              <button type="button" onClick={() => setSidebarOpen(true)} className="lg:hidden p-2.5 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1" aria-label="Open menu">
+                <Menu size={22} className="text-[#393f5b]" />
+              </button>
+              <h1 className="font-light leading-tight tracking-tight text-[#393f5b] min-w-0 flex-1 break-words" style={dashboardTitleStyle}>
+                DPP Result - {date}
+              </h1>
+            </div>
           </div>
 
-          <div className="p-4 sm:p-6 md:p-8">
+          <div className={DASHBOARD_CONTENT_CLASS}>
             <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Summary Card */}
@@ -686,7 +693,7 @@ export default function DPPTest() {
   const currentStatus = questionStatuses[currentQuestion];
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -696,34 +703,33 @@ export default function DPPTest() {
         disableNavigation={!viewingResults}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex-1">
-            <h1 className="font-light leading-tight tracking-tight text-[#393f5b]" style={{ fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)' }}>
-              Daily Practice - {date}
-            </h1>
-            <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
-              30 Questions • Physics, Chemistry, Maths
-            </p>
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-3`}>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 w-full">
+            <button type="button" onClick={() => setSidebarOpen(true)} className="lg:hidden p-2.5 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1" aria-label="Open menu">
+              <Menu size={22} className="text-[#393f5b]" />
+            </button>
+            <div className="min-w-0 flex-1">
+              <h1 className="font-light leading-tight tracking-tight text-[#393f5b]" style={dashboardTitleStyle}>
+                Daily Practice - {date}
+              </h1>
+              <p className="text-[0.65rem] sm:text-xs md:text-sm text-[#070a05]/60 mt-0.5">
+                30 Questions • Physics, Chemistry, Maths
+              </p>
+            </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+          <div className="flex items-center justify-end gap-2 w-full sm:w-auto shrink-0">
+            <div className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg touch-manipulation ${
               timeRemaining < 600 ? 'bg-red-100 text-red-600' : 'bg-[#393f5b]/10 text-[#393f5b]'
             }`}>
               <Clock size={18} />
-              <span className="font-medium text-sm">{formatTime(timeRemaining)}</span>
+              <span className="font-medium text-xs sm:text-sm tabular-nums">{formatTime(timeRemaining)}</span>
             </div>
-            
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors">
-              <Menu size={24} className="text-[#393f5b]" />
-            </button>
           </div>
         </div>
 
-        <div className="p-4 sm:p-6 md:p-8">
+        <div className={DASHBOARD_CONTENT_CLASS}>
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">

@@ -12,6 +12,14 @@ import {
   TrendingUp
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 import { mockTests } from '../data/mockTests';
 
 interface UserData {
@@ -95,7 +103,7 @@ export default function MockTests() {
   }
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -104,37 +112,32 @@ export default function MockTests() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex-1">
-            <h1 
-              className="font-light leading-tight tracking-tight text-[#393f5b]"
-              style={{
-                fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-              }}
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 w-full">
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2.5 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              Mock Tests
-            </h1>
-            <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
-              Full-length tests simulating actual JEE Main exam conditions
-            </p>
+              <Menu size={22} className="text-[#393f5b]" />
+            </button>
+            <div className="flex-1 min-w-0">
+              <h1 className={`${DASHBOARD_TITLE_CLASS} text-[#393f5b]`} style={dashboardTitleStyle}>
+                Mock Tests
+              </h1>
+              <p className="text-[0.65rem] sm:text-xs md:text-sm text-[#070a05]/60 mt-0.5 leading-snug">
+                Full-length tests simulating actual JEE Main exam conditions
+              </p>
+            </div>
           </div>
-          
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
-          >
-            <Menu size={24} className="text-[#393f5b]" />
-          </button>
         </div>
 
-        <div className="p-4 sm:p-6 md:p-12">
-          <div className="max-w-7xl mx-auto">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-lg">
+        <div className={DASHBOARD_CONTENT_CLASS}>
+          <div className="max-w-7xl mx-auto w-full min-w-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-lg min-w-0">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-[#393f5b]/10 rounded-lg">
                     <Target className="text-[#393f5b]" size={24} />
@@ -148,7 +151,7 @@ export default function MockTests() {
                 </div>
               </div>
 
-              <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-lg">
+              <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-lg min-w-0">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-emerald-100 rounded-lg">
                     <TrendingUp className="text-emerald-600" size={24} />
@@ -162,7 +165,7 @@ export default function MockTests() {
                 </div>
               </div>
 
-              <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-lg">
+              <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-lg min-w-0">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-amber-100 rounded-lg">
                     <Award className="text-amber-600" size={24} />
@@ -186,11 +189,11 @@ export default function MockTests() {
                 return (
                   <div 
                     key={test.id}
-                    className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow"
+                    className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow min-w-0"
                   >
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                      <div className="flex-1">
-                        <div className="flex items-start gap-4 mb-4">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
                           <div className="p-3 bg-[#393f5b]/10 rounded-lg flex-shrink-0">
                             <FileText className="text-[#393f5b]" size={28} />
                           </div>

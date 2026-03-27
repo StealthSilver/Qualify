@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Menu, ArrowLeft, BookOpen, ChevronRight } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import {
+  DASHBOARD_SECTION_CLASS,
+  dashboardMainClass,
+  DASHBOARD_TOPBAR_CLASS,
+  DASHBOARD_CONTENT_CLASS,
+  DASHBOARD_TITLE_CLASS,
+  dashboardTitleStyle,
+} from '../lib/dashboardLayout';
 import { getSubjectById, getCompletedQuestionsCount } from '../data/jeeChapters';
 
 interface UserData {
@@ -72,7 +80,7 @@ export default function Subject() {
   }
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f3f6f8] text-[#070a05] overflow-hidden">
+    <section className={DASHBOARD_SECTION_CLASS}>
       <Sidebar 
         user={user} 
         onLogout={handleLogout}
@@ -81,43 +89,37 @@ export default function Subject() {
         onCollapseChange={setSidebarCollapsed}
       />
 
-      <div className={`relative min-h-screen z-[2] transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-      }`}>
-        {/* Top Bar */}
-        <div className="bg-white/60 backdrop-blur-sm border-b border-dotted border-[#393f5b]/15 h-[72px] flex items-center justify-between px-6 md:px-12">
-          <div className="flex items-center gap-4">
+      <div className={dashboardMainClass(sidebarCollapsed)}>
+        <div className={`${DASHBOARD_TOPBAR_CLASS} w-full`}>
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1">
             <button
+              type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="lg:hidden p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors touch-manipulation inline-flex items-center justify-center shrink-0 -ml-1"
+              aria-label="Open menu"
             >
-              <Menu size={24} className="text-[#393f5b]" />
+              <Menu size={22} className="text-[#393f5b]" />
             </button>
             <Link 
               to="/dashboard/practice"
-              className="p-2 rounded-md hover:bg-[#393f5b]/5 transition-colors"
+              className="p-2 min-h-11 min-w-11 rounded-md hover:bg-[#393f5b]/5 transition-colors inline-flex items-center justify-center shrink-0 touch-manipulation"
+              aria-label="Back to subjects"
             >
               <ArrowLeft size={20} className="text-[#393f5b]" />
             </Link>
-            <div>
-              <h1 
-                className="font-light leading-tight tracking-tight"
-                style={{
-                  fontSize: 'clamp(1.25rem, 2vw + 0.3rem, 1.75rem)',
-                }}
-              >
+            <div className="min-w-0">
+              <h1 className={`${DASHBOARD_TITLE_CLASS} line-clamp-2`} style={dashboardTitleStyle}>
                 {subject.name}
               </h1>
-              <p className="text-xs sm:text-sm text-[#070a05]/60 mt-0.5">
+              <p className="text-[0.65rem] sm:text-xs md:text-sm text-[#070a05]/60 mt-0.5">
                 Select a chapter to practice
               </p>
             </div>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-4 sm:p-6 md:p-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className={DASHBOARD_CONTENT_CLASS}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
             {subject.chapters.map((chapter) => {
               const completedQuestions = getCompletedQuestionsCount(subject.id, chapter.id);
               const completionPercentage = Math.round((completedQuestions / chapter.totalQuestions) * 100);
@@ -126,7 +128,7 @@ export default function Subject() {
                 <Link
                   key={chapter.id}
                   to={`/dashboard/practice/${subjectId}/${chapter.id}`}
-                  className="group bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-md hover:shadow-lg transition-all duration-300"
+                  className="group bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-4 sm:p-5 md:p-6 shadow-md hover:shadow-lg transition-all duration-300 min-w-0"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className={`p-3 rounded-lg ${subject.color}`}>
