@@ -10,7 +10,8 @@ import {
   Circle,
   AlertCircle,
   X,
-  XCircle
+  XCircle,
+  ChevronDown,
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import {
@@ -58,6 +59,7 @@ export default function DPPTest() {
   const [score, setScore] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [viewingResults, setViewingResults] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const warningShownRef = useRef(false);
 
   const [questionStatuses, setQuestionStatuses] = useState<QuestionStatus[]>(
@@ -536,23 +538,23 @@ export default function DPPTest() {
           </div>
 
           <div className={DASHBOARD_CONTENT_CLASS}>
-            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="max-w-7xl mx-auto w-full min-w-0">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Summary Card */}
-                <div className="lg:col-span-1">
-                  <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-8 shadow-lg text-center sticky top-6">
+                <div className="lg:col-span-1 order-2 lg:order-1">
+                  <div className="bg-white/95 backdrop-blur-md rounded-xl border border-white/50 p-5 sm:p-8 shadow-lg text-center static lg:sticky lg:top-6">
                     <div className="inline-flex p-4 bg-emerald-100 rounded-full mb-6">
                       <CheckCircle className="text-emerald-600" size={48} />
                     </div>
-                    <h2 className="text-3xl font-light tracking-tight text-[#070a05] mb-4">
+                    <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-[#070a05] mb-3 sm:mb-4">
                       Test Completed!
                     </h2>
                     <p className="text-[#070a05]/70 mb-6 text-sm">
                       {viewingResults && 'Viewing your previous attempt'}
                     </p>
 
-                    <div className="bg-[#393f5b]/5 rounded-lg p-6 mb-6">
-                      <div className="text-5xl font-light text-[#393f5b] mb-2">
+                    <div className="bg-[#393f5b]/5 rounded-xl p-4 sm:p-6 mb-5 sm:mb-6">
+                      <div className="text-4xl sm:text-5xl font-light text-[#393f5b] mb-2 tabular-nums">
                         {score} / 30
                       </div>
                       <p className="text-[#070a05]/60">Your Score</p>
@@ -588,16 +590,16 @@ export default function DPPTest() {
                 </div>
 
                 {/* Questions Review */}
-                <div className="lg:col-span-2 space-y-4">
+                <div className="lg:col-span-2 space-y-3 sm:space-y-4 order-1 lg:order-2 min-w-0">
                   {questions.map((q, index) => {
                     const status = questionStatuses[index];
                     const isCorrect = status.selectedOption === q.correctAnswer;
                     const wasAnswered = status.answered;
 
                     return (
-                      <div key={index} className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-lg">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex items-center gap-3">
+                      <div key={index} className="bg-white/95 backdrop-blur-md rounded-xl border border-white/50 p-4 sm:p-6 shadow-lg min-w-0">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between mb-3 sm:mb-4">
+                          <div className="flex flex-wrap items-center gap-2">
                             <span className="text-sm font-medium text-[#070a05]/60">Question {index + 1}</span>
                             <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                               q.subject === 'Physics' ? 'bg-blue-100 text-blue-700' :
@@ -608,22 +610,22 @@ export default function DPPTest() {
                             </span>
                           </div>
                           {wasAnswered && (
-                            <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${
+                            <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[0.65rem] sm:text-xs font-medium shrink-0 ${
                               isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
                             }`}>
                               {isCorrect ? <CheckCircle size={14} /> : <XCircle size={14} />}
-                              {isCorrect ? 'Correct' : 'Incorrect'}
+                              {isCorrect ? 'Correct' : 'Wrong'}
                             </div>
                           )}
                           {!wasAnswered && (
-                            <div className="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[0.65rem] sm:text-xs font-medium bg-gray-100 text-gray-700 shrink-0">
                               <Circle size={14} />
-                              Not Attempted
+                              Skipped
                             </div>
                           )}
                         </div>
 
-                        <p className="text-[#070a05] mb-4">{q.question}</p>
+                        <p className="text-[#070a05] text-sm sm:text-base leading-relaxed mb-3 sm:mb-4 break-words">{q.question}</p>
 
                         <div className="space-y-2">
                           {q.options.map((option, optIndex) => {
@@ -633,7 +635,7 @@ export default function DPPTest() {
                             return (
                               <div
                                 key={optIndex}
-                                className={`p-3 rounded-lg border-2 ${
+                                className={`p-2.5 sm:p-3 rounded-lg border-2 text-sm sm:text-base ${
                                   isCorrectOption
                                     ? 'border-emerald-500 bg-emerald-50'
                                     : isSelected && !isCorrect
@@ -730,41 +732,42 @@ export default function DPPTest() {
         </div>
 
         <div className={DASHBOARD_CONTENT_CLASS}>
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
-                <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 md:p-8 shadow-lg">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-[#070a05]/60">Question {currentQuestion + 1} of 30</span>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        currentQ.subject === 'Physics' ? 'bg-blue-100 text-blue-700' :
-                        currentQ.subject === 'Chemistry' ? 'bg-purple-100 text-purple-700' :
-                        'bg-orange-100 text-orange-700'
-                      }`}>
-                        {currentQ.subject}
-                      </span>
-                    </div>
+          <div className="max-w-7xl mx-auto w-full min-w-0">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="lg:col-span-2 min-w-0 order-1">
+                <div className="bg-white/95 backdrop-blur-md rounded-xl border border-white/50 p-4 sm:p-6 md:p-8 shadow-lg">
+                  <div className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6">
+                    <span className="text-xs sm:text-sm font-medium text-[#070a05]/60 tabular-nums">
+                      Q{currentQuestion + 1}/30
+                    </span>
+                    <span className={`px-2.5 py-1 rounded-full text-[0.65rem] sm:text-xs font-medium ${
+                      currentQ.subject === 'Physics' ? 'bg-blue-100 text-blue-700' :
+                      currentQ.subject === 'Chemistry' ? 'bg-purple-100 text-purple-700' :
+                      'bg-orange-100 text-orange-700'
+                    }`}>
+                      {currentQ.subject}
+                    </span>
                   </div>
 
-                  <div className="mb-8">
-                    <p className="text-lg text-[#070a05] leading-relaxed">
+                  <div className="mb-6 sm:mb-8">
+                    <p className="text-sm sm:text-base md:text-lg text-[#070a05] leading-relaxed break-words">
                       {currentQ.question}
                     </p>
                   </div>
 
-                  <div className="space-y-3 mb-8">
+                  <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
                     {currentQ.options.map((option, index) => (
                       <button
                         key={index}
+                        type="button"
                         onClick={() => handleOptionSelect(index)}
-                        className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
+                        className={`w-full text-left p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 touch-manipulation min-h-[3rem] sm:min-h-0 ${
                           currentStatus.selectedOption === index
                             ? 'border-[#393f5b] bg-[#393f5b]/5'
-                            : 'border-[#393f5b]/20 hover:border-[#393f5b]/40 bg-white'
+                            : 'border-[#393f5b]/20 hover:border-[#393f5b]/40 bg-white active:bg-[#393f5b]/5'
                         }`}
                       >
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-2.5 sm:gap-3">
                           <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${
                             currentStatus.selectedOption === index
                               ? 'border-[#393f5b] bg-[#393f5b]'
@@ -774,105 +777,125 @@ export default function DPPTest() {
                               <div className="w-2 h-2 bg-white rounded-full" />
                             )}
                           </div>
-                          <span className="text-[#070a05] flex-1">{option}</span>
+                          <span className="text-[#070a05] flex-1 text-sm sm:text-base leading-snug">{option}</span>
                         </div>
                       </button>
                     ))}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-dotted border-[#393f5b]/15">
+                  <div className="flex flex-col gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-dotted border-[#393f5b]/15">
+                    <div className="flex gap-2 w-full">
+                      <button
+                        type="button"
+                        onClick={handlePrevious}
+                        disabled={currentQuestion === 0}
+                        className="flex flex-1 sm:flex-none items-center justify-center gap-2 px-4 py-3 sm:py-2 rounded-xl border border-[#393f5b]/20 hover:border-[#393f5b] hover:bg-[#393f5b]/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation text-sm font-medium"
+                      >
+                        <ChevronLeft size={18} />
+                        Prev
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleNext}
+                        disabled={currentQuestion === questions.length - 1}
+                        className="flex flex-1 sm:flex-none sm:ml-auto items-center justify-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-[#393f5b] text-white hover:bg-[#2f3450] transition-colors disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation text-sm font-medium"
+                      >
+                        Next
+                        <ChevronRight size={18} />
+                      </button>
+                    </div>
                     <button
-                      onClick={handlePrevious}
-                      disabled={currentQuestion === 0}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#393f5b]/20 hover:border-[#393f5b] hover:bg-[#393f5b]/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      type="button"
+                      onClick={handleMarkForReview}
+                      disabled={viewingResults}
+                      className={`w-full flex items-center justify-center gap-2 px-4 py-3 sm:py-2 rounded-xl border transition-colors touch-manipulation text-sm font-medium ${
+                        currentStatus.marked
+                          ? 'border-amber-300 bg-amber-50 text-amber-700'
+                          : 'border-[#393f5b]/20 hover:border-[#393f5b] hover:bg-[#393f5b]/5'
+                      } ${viewingResults ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      <ChevronLeft size={18} />
-                      <span className="text-sm font-medium">Previous</span>
-                    </button>
-
-                  <button
-                    onClick={handleMarkForReview}
-                    disabled={viewingResults}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
-                      currentStatus.marked
-                        ? 'border-amber-300 bg-amber-50 text-amber-700'
-                        : 'border-[#393f5b]/20 hover:border-[#393f5b] hover:bg-[#393f5b]/5'
-                    } ${viewingResults ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
-                    <Flag size={18} />
-                    <span className="text-sm font-medium">
-                      {currentStatus.marked ? 'Unmark' : 'Mark for Review'}
-                    </span>
-                  </button>
-
-                    <button
-                      onClick={handleNext}
-                      disabled={currentQuestion === questions.length - 1}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#393f5b] text-white hover:bg-[#2f3450] transition-colors disabled:opacity-50 disabled:cursor-not-allowed ml-auto"
-                    >
-                      <span className="text-sm font-medium">Next</span>
-                      <ChevronRight size={18} />
+                      <Flag size={18} />
+                      {currentStatus.marked ? 'Unmark review' : 'Mark for review'}
                     </button>
                   </div>
                 </div>
               </div>
 
-              <div className="lg:col-span-1">
-                <div className="bg-white/95 backdrop-blur-md rounded-lg border border-white/50 p-6 shadow-lg sticky top-6">
-                  <h3 className="text-lg font-light tracking-tight text-[#070a05] mb-4">
-                    Question Palette
+              <div className="lg:col-span-1 min-w-0 order-2">
+                <div className="bg-white/95 backdrop-blur-md rounded-xl border border-white/50 p-4 sm:p-6 shadow-lg lg:sticky lg:top-6">
+                  <h3 className="text-base sm:text-lg font-light tracking-tight text-[#070a05] mb-3 sm:mb-4">
+                    Question palette
                   </h3>
 
-                  <div className="grid grid-cols-5 gap-2 mb-6">
-                    {questions.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleQuestionNavigate(index)}
-                        className={`aspect-square rounded-lg border-2 flex flex-col items-center justify-center transition-all duration-200 relative ${
-                          getQuestionStatusColor(index)
-                        }`}
-                      >
-                        <span className="text-sm font-medium">{index + 1}</span>
-                        <div className="absolute -top-1 -right-1">
-                          {getQuestionStatusIcon(index)}
-                        </div>
-                      </button>
-                    ))}
+                  <button
+                    type="button"
+                    onClick={() => setPaletteOpen((o) => !o)}
+                    className="lg:hidden w-full flex items-center justify-between gap-2 px-3 py-2.5 mb-3 rounded-lg border border-[#393f5b]/15 bg-[#393f5b]/[0.04] text-left text-sm font-medium text-[#070a05] touch-manipulation"
+                    aria-expanded={paletteOpen}
+                  >
+                    <span className="tabular-nums">
+                      <span className="text-[#393f5b]">{answeredCount}</span>/30 answered · tap to {paletteOpen ? 'hide' : 'show'} grid
+                    </span>
+                    <ChevronDown size={18} className={`text-[#393f5b] shrink-0 transition-transform ${paletteOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <div
+                    className={`${paletteOpen ? 'block' : 'hidden'} lg:block mb-4 sm:mb-6`}
+                  >
+                    <div className="grid grid-cols-6 sm:grid-cols-5 gap-1.5 sm:gap-2 max-h-[38vh] lg:max-h-none overflow-y-auto overscroll-contain -mx-0.5 px-0.5 pb-1">
+                      {questions.map((_, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => {
+                            handleQuestionNavigate(index);
+                            setPaletteOpen(false);
+                          }}
+                          className={`min-h-9 min-w-0 aspect-square rounded-lg border-2 flex flex-col items-center justify-center transition-all duration-200 relative text-xs sm:text-sm font-semibold touch-manipulation ${getQuestionStatusColor(index)}`}
+                        >
+                          <span className="tabular-nums">{index + 1}</span>
+                          <div className="absolute -top-0.5 -right-0.5 scale-90 sm:scale-100 origin-top-right">
+                            {getQuestionStatusIcon(index)}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="space-y-3 mb-6 pb-6 border-b border-dotted border-[#393f5b]/15">
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle size={14} className="text-emerald-600" />
-                        <span className="text-[#070a05]/70">Answered</span>
+                  <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-dotted border-[#393f5b]/15 text-xs sm:text-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <CheckCircle size={14} className="text-emerald-600 shrink-0" />
+                        <span className="text-[#070a05]/70 truncate">Answered</span>
                       </div>
-                      <span className="font-medium text-[#070a05]">{answeredCount}</span>
+                      <span className="font-medium text-[#070a05] tabular-nums">{answeredCount}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <Flag size={14} className="text-amber-600" />
-                        <span className="text-[#070a05]/70">Marked</span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Flag size={14} className="text-amber-600 shrink-0" />
+                        <span className="text-[#070a05]/70 truncate">Marked</span>
                       </div>
-                      <span className="font-medium text-[#070a05]">{markedCount}</span>
+                      <span className="font-medium text-[#070a05] tabular-nums">{markedCount}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <Circle size={14} className="text-[#070a05]/30" />
-                        <span className="text-[#070a05]/70">Not Visited</span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Circle size={14} className="text-[#070a05]/30 shrink-0" />
+                        <span className="text-[#070a05]/70 truncate">Not visited</span>
                       </div>
-                      <span className="font-medium text-[#070a05]">{notVisitedCount}</span>
+                      <span className="font-medium text-[#070a05] tabular-nums">{notVisitedCount}</span>
                     </div>
                   </div>
 
                   <button
+                    type="button"
                     onClick={() => handleSubmit(false)}
                     disabled={viewingResults}
-                    className={`w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors font-medium flex items-center justify-center gap-2 ${
+                    className={`w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 sm:py-3 rounded-xl transition-colors font-medium flex items-center justify-center gap-2 touch-manipulation text-sm ${
                       viewingResults ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
                     <CheckCircle size={18} />
-                    {viewingResults ? 'Test Already Submitted' : 'Submit Test'}
+                    {viewingResults ? 'Already submitted' : 'Submit test'}
                   </button>
                 </div>
               </div>
@@ -882,8 +905,8 @@ export default function DPPTest() {
       </div>
 
       {showSubmitDialog && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 pb-[env(safe-area-inset-bottom,0px)]">
+          <div className="bg-white rounded-t-2xl sm:rounded-lg shadow-xl max-w-md w-full p-5 sm:p-6 max-h-[min(90dvh,560px)] overflow-y-auto">
             <div className="flex items-start gap-4 mb-6">
               <div className="p-3 bg-amber-100 rounded-full">
                 <AlertCircle className="text-amber-600" size={24} />
@@ -904,16 +927,18 @@ export default function DPPTest() {
               </button>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3">
               <button
+                type="button"
                 onClick={() => setShowSubmitDialog(false)}
-                className="flex-1 px-4 py-2 border border-[#393f5b]/20 rounded-lg hover:bg-[#393f5b]/5 transition-colors font-medium"
+                className="flex-1 px-4 py-3 sm:py-2 border border-[#393f5b]/20 rounded-xl sm:rounded-lg hover:bg-[#393f5b]/5 transition-colors font-medium touch-manipulation"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={() => submitTest()}
-                className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium"
+                className="flex-1 px-4 py-3 sm:py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl sm:rounded-lg transition-colors font-medium touch-manipulation"
               >
                 Submit
               </button>
@@ -923,8 +948,8 @@ export default function DPPTest() {
       )}
 
       {showWarning && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 pb-[env(safe-area-inset-bottom,0px)]">
+          <div className="bg-white rounded-t-2xl sm:rounded-lg shadow-xl max-w-md w-full p-5 sm:p-6 max-h-[min(85dvh,480px)] overflow-y-auto">
             <div className="flex items-start gap-4 mb-6">
               <div className="p-3 bg-red-100 rounded-full">
                 <Clock className="text-red-600" size={24} />
@@ -940,10 +965,11 @@ export default function DPPTest() {
             </div>
 
             <button
+              type="button"
               onClick={() => setShowWarning(false)}
-              className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium"
+              className="w-full px-4 py-3 sm:py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl sm:rounded-lg transition-colors font-medium touch-manipulation"
             >
-              Continue Test
+              Continue test
             </button>
           </div>
         </div>
