@@ -29,12 +29,24 @@ const defaultDevOrigins = [
     "http://localhost:5177",
     "http://localhost:5178",
 ];
+/** CORS origins are scheme+host+port only; browsers never send a path in Origin. */
+function toCorsOrigin(entry) {
+    try {
+        return new URL(entry).origin;
+    }
+    catch (_a) {
+        return entry;
+    }
+}
 function corsOrigin() {
     var _a;
     const raw = (_a = process.env.FRONTEND_URL) === null || _a === void 0 ? void 0 : _a.trim();
     if (!raw)
         return defaultDevOrigins;
-    const list = raw.split(",").map((s) => s.trim()).filter(Boolean);
+    const list = raw
+        .split(",")
+        .map((s) => toCorsOrigin(s.trim()))
+        .filter(Boolean);
     if (list.length === 0)
         return defaultDevOrigins;
     return list.length === 1 ? list[0] : list;

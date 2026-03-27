@@ -19,10 +19,22 @@ const defaultDevOrigins = [
   "http://localhost:5178",
 ];
 
+/** CORS origins are scheme+host+port only; browsers never send a path in Origin. */
+function toCorsOrigin(entry: string): string {
+  try {
+    return new URL(entry).origin;
+  } catch {
+    return entry;
+  }
+}
+
 function corsOrigin(): string | string[] {
   const raw = process.env.FRONTEND_URL?.trim();
   if (!raw) return defaultDevOrigins;
-  const list = raw.split(",").map((s) => s.trim()).filter(Boolean);
+  const list = raw
+    .split(",")
+    .map((s) => toCorsOrigin(s.trim()))
+    .filter(Boolean);
   if (list.length === 0) return defaultDevOrigins;
   return list.length === 1 ? list[0]! : list;
 }
