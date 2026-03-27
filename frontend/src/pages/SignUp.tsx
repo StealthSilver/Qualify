@@ -5,6 +5,7 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 import { authService } from '../services/api';
 import type { SignUpData } from '../services/api';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
+import PasswordInputWithToggle from '../components/PasswordInputWithToggle';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -148,14 +149,13 @@ export default function SignUp() {
                 >
                   Password
                 </label>
-                <input
+                <PasswordInputWithToggle
                   id="password"
-                  type="password"
                   required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-4 py-2.5 xs:py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#393f5b]/50 focus:border-[#393f5b] transition-all duration-300 text-sm xs:text-base"
                   minLength={6}
+                  value={formData.password}
+                  onChange={(password) => setFormData({ ...formData, password })}
+                  autoComplete="new-password"
                 />
                 <p className="mt-1 text-[0.625rem] xs:text-xs text-[#070a05]/60">
                   Must be at least 6 characters long

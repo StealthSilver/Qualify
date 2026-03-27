@@ -1,5 +1,27 @@
 import mongoose from "mongoose";
 
+/**
+ * Prefer MONGODB_URI when set. Otherwise build from MONGODB_USER + MONGODB_PASSWORD + MONGODB_HOST
+ * so the password can be plain text (special characters are encoded automatically).
+ * Same Atlas user and cluster — no extra DB user required.
+ */
+function resolveMongoUri(): string | null {
+  const direct = process.env.MONGODB_URI?.trim();
+  if (direct) return direct;
+
+  const user = process.env.MONGODB_USER?.trim();
+  const password = process.env.MONGODB_PASSWORD;
+  const host = process.env.MONGODB_HOST?.trim();
+  if (!user || password === undefined || password === "" || !host) return null;
+
+  const db = process.env.MONGODB_DB_NAME?.trim() || "spardha";
+  const query =
+    process.env.MONGODB_QUERY_STRING?.trim() || "retryWrites=true&w=majority";
+  const userEnc = encodeURIComponent(user);
+  const passEnc = encodeURIComponent(password);
+  return `mongodb+srv://${userEnc}:${passEnc}@${host}/${db}?${query}`;
+}
+
 function assertPlausibleMongoUri(uri: string): void {
   const hostMatch = uri.match(/@([^/?]+)/);
   const host = hostMatch?.[1]?.toLowerCase() ?? "";
@@ -19,11 +41,11 @@ function assertPlausibleMongoUri(uri: string): void {
 
 export const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI;
+    const mongoURI = resolveMongoUri();
 
     if (!mongoURI) {
       throw new Error(
-        "MONGODB_URI is not defined. Add it in the Render dashboard: Environment → MONGODB_URI (your full mongodb+srv://… string from Atlas)."
+        "Set MONGODB_URI, or set MONGODB_USER + MONGODB_PASSWORD + MONGODB_HOST (see .env.example)."
       );
     }
 
@@ -62,6 +84,16 @@ export const connectDB = async () => {
           "1. Atlas → your cluster → Connect → Drivers → copy connection string\n" +
           "2. Replace <password> with your DB user password (URL-encode special characters)\n" +
           "3. Paste the full URI as MONGODB_URI on Render (no line breaks)\n"
+      );
+    } else if (/bad auth|authentication failed/i.test(String(error.message ?? ""))) {
+      console.error("Error details:", error.message);
+      console.error(
+        "\n🔑 Wrong database user or password in MONGODB_URI:\n" +
+          "1. Atlas → Database Access → confirm the user (not your Atlas login email)\n" +
+          "2. Edit user → reset password → copy the new password into .env\n" +
+          "3. URL-encode the password: @ %40  # %23  : %3A  / %2F  ? %3F  & %26  + %2B  space %20\n" +
+          "4. URI shape: mongodb+srv://DB_USERNAME:ENCODED_PASSWORD@cluster0.xxxxx.mongodb.net/spardha?...\n" +
+          "5. No angle brackets; no quotes around the URI in .env\n"
       );
     } else {
       console.error("Error details:", error.message);

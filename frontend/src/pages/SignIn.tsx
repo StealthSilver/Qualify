@@ -5,6 +5,7 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 import { authService } from '../services/api';
 import type { SignInData } from '../services/api';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
+import PasswordInputWithToggle from '../components/PasswordInputWithToggle';
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -128,13 +129,12 @@ export default function SignIn() {
                 >
                   Password
                 </label>
-                <input
+                <PasswordInputWithToggle
                   id="password"
-                  type="password"
                   required
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-4 py-2.5 xs:py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#393f5b]/50 focus:border-[#393f5b] transition-all duration-300 text-sm xs:text-base"
+                  onChange={(password) => setFormData({ ...formData, password })}
+                  autoComplete="current-password"
                 />
               </div>
 
